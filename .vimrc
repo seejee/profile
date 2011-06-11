@@ -13,6 +13,10 @@ set hidden
 set incsearch
 set history=1000
 
+set tabstop=2
+set ts=2
+set sw=2
+
 set wildmode=list:longest
 set title
 set scrolloff=3
