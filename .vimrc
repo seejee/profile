@@ -13,10 +13,19 @@ set hidden
 set incsearch
 set history=1000
 
+set expandtab
 set tabstop=2
-set ts=2
-set sw=2
+set shiftwidth=2
+set softtabstop=2
+set autoindent
+set laststatus=2
+set showmatch
+set incsearch
 
+set textwidth=78
+set hls
+
+set number
 set wildmode=list:longest
 set title
 set scrolloff=3
@@ -35,3 +44,83 @@ nmap <silent> <leader>s :set nolist!<CR>
 nnoremap <C-e> 3<C-e>
 nnoremap <C-y> 3<C-y>
 
+colorscheme solarized
+set background=dark
+
+" use return to clear hl search
+:nnoremap <CR> :nohlsearch<CR>/<BS>
+
+" quickly move between previous buffer
+nnoremap <leader><leader> <c-^>
+
+" edit files in the same directory
+cnoremap %% <C-R>=expand('%:h').'/'<cr>
+map <leader>e :edit %%
+map <leader>v :view %%
+
+" leave current window big, but leave others for context
+set winwidth=84
+" We have to have a winheight bigger than we want to set winminheight. But if
+" " we set winheight to be huge before winminheight, the winminheight set will
+" " fail.
+set winheight=5
+set winminheight=5
+set winheight=999
+
+" Testy McTestertons
+function! IsMinitest(filename)
+  echo a:filename
+  return match(a:filename, '_test.rb$') != -1
+endfunction
+
+function! IsRspec(filename)
+  return match(a:filename, '_spec.rb$') != -1
+endfunction
+
+function! RunTests(filename)
+    " Write the file and run tests for the given filename
+    :w
+    :silent !echo;echo;echo;echo;echo
+
+    if IsMinitest(a:filename)
+      let command_to_run = ":!ruby " . a:filename
+    elseif IsRspec(a:filename)
+      let command_to_run = ":!bundle exec rspec " . a:filename
+    end
+
+    exec command_to_run
+endfunction
+
+function! SetTestFile()
+    " Set the spec file that tests will be run for.
+    let t:grb_test_file=@%
+endfunction
+
+function! RunTestFile(...)
+    if a:0
+        let command_suffix = a:1
+    else
+        let command_suffix = ""
+    endif
+
+    " Run the tests for the previously-marked file.
+    let in_spec_file = IsMinitest(expand("%")) || IsRspec(expand("%"))
+    if in_spec_file
+        call SetTestFile()
+    elseif !exists("t:grb_test_file")
+        return
+    end
+    call RunTests(t:grb_test_file . command_suffix)
+endfunction
+
+function! RunNearestTest()
+    let spec_line_number = line('.')
+    call RunTestFile(":" . spec_line_number)
+endfunction
+
+" Run this file
+map <leader>t :call RunTestFile()<cr>
+" Run only the example under the cursor
+map <leader>T :call RunNearestTest()<cr>
+" Run all test files
+map <leader>a :call RunTests('spec')<cr>   
