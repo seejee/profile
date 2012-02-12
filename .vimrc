@@ -35,6 +35,8 @@ set backspace=indent,eol,start
 set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
 set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
 
+" autocmd FileType ruby setlocal foldmethod=syntax
+
 runtime macros/matchit.vim
 
 " Catch trailing whitespace
@@ -59,13 +61,40 @@ map <leader>e :edit %%
 map <leader>v :view %%
 
 " leave current window big, but leave others for context
-set winwidth=84
+set winwidth=100
 " We have to have a winheight bigger than we want to set winminheight. But if
 " " we set winheight to be huge before winminheight, the winminheight set will
 " " fail.
 set winheight=5
 set winminheight=5
 set winheight=999
+
+" leave visual mode enabled when indenting blocks
+vmap > >gv
+vmap < <gv
+
+" Window swapping
+function! MarkWindowSwap()
+    let g:markedWinNum = winnr()
+endfunction
+
+function! DoWindowSwap()
+    "Mark destination
+    let curNum = winnr()
+    let curBuf = bufnr( "%" )
+    exe g:markedWinNum . "wincmd w"
+    "Switch to source and shuffle dest->source
+    let markedBuf = bufnr( "%" )
+    "Hide and open so that we aren't prompted and keep history
+    exe 'hide buf' curBuf
+    "Switch to dest and shuffle source->dest
+    exe curNum . "wincmd w"
+    "Hide and open so that we aren't prompted and keep history
+    exe 'hide buf' markedBuf 
+endfunction
+
+nmap <silent> <leader>mw :call MarkWindowSwap()<CR>
+nmap <silent> <leader>pw :call DoWindowSwap()<CR>
 
 " Testy McTestertons
 function! IsMinitest(filename)
