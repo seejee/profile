@@ -35,13 +35,25 @@ set backspace=indent,eol,start
 set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
 set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
 
-" autocmd FileType ruby setlocal foldmethod=syntax
+map Y y$
+
+" reload .vimrc when it is save
+au BufWritePost .vimrc so ~/.vimrc
 
 runtime macros/matchit.vim
 
 " Catch trailing whitespace
 set listchars=tab:>-,trail:·,eol:$
 nmap <silent> <leader>s :set nolist!<CR>
+
+" better split nav
+noremap <C-h> <C-w>h
+noremap <C-j> <C-w>j
+noremap <C-k> <C-w>k
+noremap <C-l> <C-w>l
+
+" use jk as ESC in insert mode
+inoremap jk <Esc>
 
 nnoremap <C-e> 3<C-e>
 nnoremap <C-y> 3<C-y>
