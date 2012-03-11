@@ -1,0 +1,22 @@
+[user]
+	name = Chris Geihsler
+	email = chris@geihsler.net
+[github]
+	user = geihsler
+	token = f1f78ac10a339bcd92597374bc7102cf
+[color]
+	status = auto
+	branch = auto
+
+[merge]
+	tool = diffmerge
+
+[mergetool "diffmerge"]
+	cmd = diffmerge --merge --result=\"$MERGED\"\n  \"$LOCAL\" \"$BASE\" \"$REMOTE\"
+	trustExitCode = false
+
+[diff]
+	tool = diffmerge
+
+[difftool "diffmerge"]
+	cmd = diffmerge \"$LOCAL\" \"$REMOTE\"
