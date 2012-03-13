@@ -52,6 +52,9 @@ noremap <C-j> <C-w>j
 noremap <C-k> <C-w>k
 noremap <C-l> <C-w>l
 
+"quickly jump between two windows
+map <leader>p <C-w>p  
+
 " use jk as ESC in insert mode
 inoremap jk <Esc>
 
