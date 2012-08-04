@@ -129,7 +129,7 @@ function! RunTests(filename)
     if IsMinitest(a:filename)
       let command_to_run = ":!ruby " . a:filename
     elseif IsRspec(a:filename)
-      let command_to_run = ":!bundle exec rspec " . a:filename
+      let command_to_run = ":!rspec " . a:filename
     end
 
     exec command_to_run

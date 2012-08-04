@@ -1,6 +1,8 @@
 export CLICOLOR=1
 export LSCOLORS=ExFxCxDxBxegedabagacad
 
+alias rspec='rspec --color'
+
 if [ -f `brew --prefix`/etc/bash_completion ]; then
   . `brew --prefix`/etc/bash_completion
 fi
@@ -9,8 +11,6 @@ source ~/.git-completion.bash
 PS1='\u@\h:\w \[\e[0;34m\]$(__git_ps1 "(%s)")\[\e[m\]\$ '
 
 export PATH=/usr/local/bin:~/code/node_modules/.bin:$PATH
-
-. ~/.nvm/nvm.sh
 
 export RUBY_HEAP_MIN_SLOTS=1000000
 export RUBY_HEAP_SLOTS_INCREMENT=1000000
