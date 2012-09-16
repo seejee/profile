@@ -1,4 +1,19 @@
 let mapleader = ","
+set nocompatible
+filetype off
+
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+
+Bundle 'gmarik/vundle'
+Bundle 'tpope/vim-fugitive'
+Bundle 'L9'
+Bundle 'kien/ctrlp.vim'
+Bundle 'altercation/vim-colors-solarized'
+Bundle 'daveray/vimclojure-easy', {'rtp': 'bundle/vimclojure-2.3.3'}
+Bundle 'vim-scripts/paredit.vim'
+
+filetype plugin indent on
 
 nnoremap ' `
 nnoremap ` '
@@ -7,6 +22,8 @@ syntax on
 filetype on
 filetype plugin on
 filetype indent on
+
+let g:paredit_mode = 1
 
 set hlsearch
 set hidden
@@ -132,7 +149,7 @@ function! RunTests(filename)
     if IsMinitest(a:filename)
       let command_to_run = ":!ruby " . a:filename
     elseif IsRspec(a:filename)
-      let command_to_run = ":!bundle exec rspec " . a:filename
+      let command_to_run = ":!rspec " . a:filename
     end
 
     exec command_to_run
