@@ -16,7 +16,10 @@
 	trustExitCode = false
 
 [diff]
+	color = true
 	tool = diffmerge
 
 [difftool "diffmerge"]
 	cmd = diffmerge \"$LOCAL\" \"$REMOTE\"
+[core]
+	excludesfile = /Users/seejee/.gitignore
