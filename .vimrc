@@ -1,4 +1,5 @@
 let mapleader = ","
+let maplocalleader = "\\"
 set nocompatible
 filetype off
 
@@ -10,8 +11,9 @@ Bundle 'tpope/vim-fugitive'
 Bundle 'L9'
 Bundle 'kien/ctrlp.vim'
 Bundle 'altercation/vim-colors-solarized'
-Bundle 'daveray/vimclojure-easy', {'rtp': 'bundle/vimclojure-2.3.3'}
-Bundle 'vim-scripts/paredit.vim'
+Bundle 'daveray/vimclojure-easy' , {'rtp': 'bundle/vimclojure-2.3.5'}
+Bundle 'VimClojure'
+Bundle 'paredit.vim'
 
 filetype plugin indent on
 
@@ -24,6 +26,11 @@ filetype plugin on
 filetype indent on
 
 let g:paredit_mode = 1
+let g:vimclojure#HighlightBuiltins = 1
+let g:vimclojure#ParenRainbow = 1
+let vimclojure#WantNailgun = 1
+let vimclojure#SplitPos = "bottom"
+:helptags ~/.vim/bundle/VimClojure/doc/
 
 set hlsearch
 set hidden
@@ -71,6 +78,7 @@ noremap <C-l> <C-w>l
 
 "quickly jump between two windows
 map <leader>p <C-w>p  
+map <leader>w <C-w>p  
 
 " use jk as ESC in insert mode
 inoremap jk <Esc>
@@ -182,9 +190,6 @@ function! RunNearestTest()
     call RunTestFile(":" . spec_line_number)
 endfunction
 
-" Run this file
 map <leader>t :call RunTestFile()<cr>
-" Run only the example under the cursor
 map <leader>T :call RunNearestTest()<cr>
-" Run all test files
 map <leader>a :call RunTests('spec')<cr>   

@@ -19,3 +19,7 @@
 
 [diff]
 	tool = /usr/bin/vim
+	color = true
+
+[core]
+	excludesfile = /Users/seejee/.gitignore

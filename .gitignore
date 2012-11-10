@@ -20,3 +20,5 @@ Desktop
 .vim_mru_files
 .viminfo
 
+vendor/bundle
+.DS_Store
