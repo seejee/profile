@@ -113,6 +113,9 @@ set winheight=999
 vmap > >gv
 vmap < <gv
 
+" Ctrl-p excludes
+let g:ctrlp_custom_ignore = '\.git$\|\.o$\|\.app$\|\.dSYM\|\.ipa$\'
+
 " Window swapping
 function! MarkWindowSwap()
     let g:markedWinNum = winnr()

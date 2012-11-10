@@ -1,25 +1,22 @@
 [user]
 	name = Chris Geihsler
-	email = chris@geihsler.net
+  email = chris@geihsler.net
+
 [github]
 	user = seejee
-	token = f1f78ac10a339bcd92597374bc7102cf
+  token = f1f78ac10a339bcd92597374bc7102cf
+
 [color]
 	status = auto
-	branch = auto
+  branch = auto
+  diff   = auto
 
 [merge]
-	tool = diffmerge
-
-[mergetool "diffmerge"]
-	cmd = diffmerge --merge --result=\"$MERGED\"\n  \"$LOCAL\" \"$BASE\" \"$REMOTE\"
-	trustExitCode = false
+	tool = /usr/bin/vi
 
 [diff]
 	color = true
-	tool = diffmerge
+  tool = vi
 
-[difftool "diffmerge"]
-	cmd = diffmerge \"$LOCAL\" \"$REMOTE\"
 [core]
 	excludesfile = /Users/seejee/.gitignore

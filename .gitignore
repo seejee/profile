@@ -8,6 +8,7 @@ Library
 Desktop
 
 .vim/bundle
+.vim/.netrwhist
 .rvm
 .ssh
 
