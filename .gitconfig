@@ -11,8 +11,11 @@
   branch = auto
   diff   = auto
 
+[core]
+  editor = /usr/bin/vim
+
 [merge]
-	tool = /usr/bin/vi
+	tool = /usr/bin/vim
 
 [diff]
-	tool = /usr/bin/vi
+	tool = /usr/bin/vim
