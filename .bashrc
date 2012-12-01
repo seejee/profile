@@ -1,1 +1,1 @@
-PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+PATH=/usr/local/bin:~/code/node_modules/.bin:$HOME/.rvm/bin:$PATH

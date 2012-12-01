@@ -1,3 +1,7 @@
+if [ -f ~/.bashrc ]; then
+  source ~/.bashrc
+fi
+
 export CLICOLOR=1
 export LSCOLORS=ExFxCxDxBxegedabagacad
 
@@ -9,8 +13,6 @@ fi
 
 source ~/.git-completion.bash
 PS1='\u@\h:\w \[\e[0;34m\]$(__git_ps1 "(%s)")\[\e[m\]\$ '
-
-export PATH=/usr/local/bin:~/code/node_modules/.bin:$PATH
 
 alias roobee="ssh roobee -t /usr/local/bin/tmux a"
 
