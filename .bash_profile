@@ -5,7 +5,9 @@ fi
 export CLICOLOR=1
 export LSCOLORS=ExFxCxDxBxegedabagacad
 
+alias tmux="TERM=screen-256color-bce tmux"
 alias rspec='rspec --color'
+alias roobee="ssh roobee -t /usr/local/bin/tmux a"
 
 if [ -f `brew --prefix`/etc/bash_completion ]; then
   . `brew --prefix`/etc/bash_completion
@@ -13,8 +15,6 @@ fi
 
 source ~/.git-completion.bash
 PS1='\u@\h:\w \[\e[0;34m\]$(__git_ps1 "(%s)")\[\e[m\]\$ '
-
-alias roobee="ssh roobee -t /usr/local/bin/tmux a"
 
 export RUBY_HEAP_MIN_SLOTS=1000000
 export RUBY_HEAP_FREE_MIN=500000
