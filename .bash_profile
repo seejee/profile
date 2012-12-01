@@ -14,7 +14,7 @@ fi
 source ~/.git-completion.bash
 PS1='\u@\h:\w \[\e[0;34m\]$(__git_ps1 "(%s)")\[\e[m\]\$ '
 
-alias roobee="ssh roobee -t /usr/local/bin/tmux a"
+alias roobee="ssh roobee -t tmux a"
 
 export RUBY_HEAP_MIN_SLOTS=1000000
 export RUBY_HEAP_FREE_MIN=500000
