@@ -13,11 +13,12 @@ PS1='\u@\h:\w \[\e[0;34m\]$(__git_ps1 "(%s)")\[\e[m\]\$ '
 
 export PATH=/usr/local/bin:~/code/node_modules/.bin:$PATH
 
-#export RUBY_HEAP_MIN_SLOTS=800000
-#export RUBY_HEAP_FREE_MIN=100000
-#export RUBY_HEAP_SLOTS_INCREMENT=300000
-#export RUBY_HEAP_SLOTS_GROWTH_FACTOR=1
-#export RUBY_GC_MALLOC_LIMIT=79000000
+alias roobee="ssh roobee -t /usr/local/bin/tmux a"
 
-#eval "$(rbenv init -)"
+export RUBY_HEAP_MIN_SLOTS=800000
+export RUBY_HEAP_FREE_MIN=100000
+export RUBY_HEAP_SLOTS_INCREMENT=300000
+export RUBY_HEAP_SLOTS_GROWTH_FACTOR=1
+export RUBY_GC_MALLOC_LIMIT=79000000
+
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
