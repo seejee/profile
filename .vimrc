@@ -149,6 +149,10 @@ function! IsRspec(filename)
   return match(a:filename, '_spec.rb$') != -1
 endfunction
 
+function! IsJasmine(filename)
+  return match(a:filename, '_spec.js$') != -1
+endfunction
+
 function! RunTests(filename)
     " Write the file and run tests for the given filename
     :w
@@ -158,6 +162,8 @@ function! RunTests(filename)
       let command_to_run = ":!ruby " . a:filename
     elseif IsRspec(a:filename)
       let command_to_run = ":!rspec " . a:filename
+    elseif IsJasmine(a:filename)
+      let command_to_run = ":!jasmine-node " . a:filename
     end
 
     exec command_to_run
@@ -176,7 +182,7 @@ function! RunTestFile(...)
     endif
 
     " Run the tests for the previously-marked file.
-    let in_spec_file = IsMinitest(expand("%")) || IsRspec(expand("%"))
+    let in_spec_file = IsMinitest(expand("%")) || IsRspec(expand("%")) || IsJasmine(expand("%"))
     if in_spec_file
         call SetTestFile()
     elseif !exists("t:grb_test_file")
