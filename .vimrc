@@ -82,7 +82,7 @@ map <leader>p <C-w>p
 map <leader>w <C-w>p  
 
 " regenerate ctags
-map <Leader>c :!ctags --extra=+f -R *<CR><CR>
+map <Leader>c :!rm tags; ctags --extra=+f -R *<CR><CR>
 
 " use jk as ESC in insert mode inoremap jk <Esc> 
 nnoremap <C-e> 3<C-e>
