@@ -116,7 +116,8 @@ vmap > >gv
 vmap < <gv
 
 " Ctrl-p excludes
-let g:ctrlp_custom_ignore = '\.git$\|\.o$\|\.app$\|\.dSYM\|\.ipa$\|tags\public\/images\|log|tmp$'
+set wildignore+=*.png,*.jpg,*.pdf,*.swf
+let g:ctrlp_custom_ignore = '\.git$\|\.o$\|\.app$\|\.dSYM\|\.ipa$\|tags\|public\/images$\|public\/uploads$\|log\|tmp$\|app\/assets\/images'
 
 " Window swapping
 function! MarkWindowSwap()
