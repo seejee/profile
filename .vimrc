@@ -14,6 +14,7 @@ Bundle 'altercation/vim-colors-solarized'
 Bundle 'daveray/vimclojure-easy' , {'rtp': 'bundle/vimclojure-2.3.5'}
 Bundle 'VimClojure'
 Bundle 'paredit.vim'
+Bundle 'slim-template/vim-slim'
 
 filetype plugin indent on
 
@@ -80,9 +81,10 @@ noremap <C-l> <C-w>l
 map <leader>p <C-w>p  
 map <leader>w <C-w>p  
 
-" use jk as ESC in insert mode
-inoremap jk <Esc>
+" regenerate ctags
+map <Leader>c :!ctags --extra=+f -R *<CR><CR>
 
+" use jk as ESC in insert mode inoremap jk <Esc> 
 nnoremap <C-e> 3<C-e>
 nnoremap <C-y> 3<C-y>
 
@@ -114,7 +116,7 @@ vmap > >gv
 vmap < <gv
 
 " Ctrl-p excludes
-let g:ctrlp_custom_ignore = '\.git$\|\.o$\|\.app$\|\.dSYM\|\.ipa$\'
+let g:ctrlp_custom_ignore = '\.git$\|\.o$\|\.app$\|\.dSYM\|\.ipa$\|tags\public\/images\|log|tmp$'
 
 " Window swapping
 function! MarkWindowSwap()

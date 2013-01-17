@@ -1,0 +1,4 @@
+# Set computer name (as done via System Preferences → Sharing)
+sudo scutil --set ComputerName "seejee-mbp"
+sudo scutil --set HostName "seejee-mbp"
+sudo scutil --set LocalHostName "seejee-mbp"
