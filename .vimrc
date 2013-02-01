@@ -8,6 +8,7 @@ call vundle#rc()
 
 Bundle 'gmarik/vundle'
 Bundle 'tpope/vim-fugitive'
+Bundle 'vim-ruby/vim-ruby'
 Bundle 'L9'
 Bundle 'kien/ctrlp.vim'
 Bundle 'altercation/vim-colors-solarized'
@@ -78,13 +79,13 @@ noremap <C-k> <C-w>k
 noremap <C-l> <C-w>l
 
 "quickly jump between two windows
-map <leader>p <C-w>p  
-map <leader>w <C-w>p  
+map <leader>p <C-w>p
+map <leader>w <C-w>p
 
 " regenerate ctags
 map <Leader>c :!rm tags; ctags --extra=+f -R *<CR><CR>
 
-" use jk as ESC in insert mode inoremap jk <Esc> 
+" use jk as ESC in insert mode inoremap jk <Esc>
 nnoremap <C-e> 3<C-e>
 nnoremap <C-y> 3<C-y>
 
@@ -136,11 +137,12 @@ function! DoWindowSwap()
     "Switch to dest and shuffle source->dest
     exe curNum . "wincmd w"
     "Hide and open so that we aren't prompted and keep history
-    exe 'hide buf' markedBuf 
+    exe 'hide buf' markedBuf
 endfunction
 
 nmap <silent> <leader>mw :call MarkWindowSwap()<CR>
 nmap <silent> <leader>pw :call DoWindowSwap()<CR>
+nmap <silent> <leader><space> :call TrimSpaces()<CR>
 
 " Testy McTestertons
 function! IsMinitest(filename)
@@ -199,6 +201,13 @@ function! RunNearestTest()
     call RunTestFile(":" . spec_line_number)
 endfunction
 
+" Show trailing spaces as a dot
+set list listchars=trail:.,tab:>>
+function! TrimSpaces()
+    %s/\s*$//
+    ''
+endfunction
+
 map <leader>t :call RunTestFile()<cr>
 map <leader>T :call RunNearestTest()<cr>
-map <leader>a :call RunTests('spec')<cr>   
+map <leader>a :call RunTests('spec')<cr>
