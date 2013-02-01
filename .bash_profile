@@ -2,6 +2,7 @@ if [ -f ~/.bashrc ]; then
   source ~/.bashrc
 fi
 
+export VIM_APP_DIR=/usr/local/Cellar/macvim/7.3-66/
 export CLICOLOR=1
 export LSCOLORS=ExFxCxDxBxegedabagacad
 

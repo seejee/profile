@@ -1,6 +1,6 @@
 [user]
 	name = Chris Geihsler
-  email = chris@geihsler.net
+  email = cgeihsler@thinkthroughmath.com
 
 [github]
 	user = seejee
@@ -22,4 +22,12 @@
 	color = true
 
 [core]
-	excludesfile = /Users/seejee/.gitignore
+  excludesfile = /Users/seejee/.gitignore
+
+[alias]
+  st = status
+  c  = commit
+
+  lol = log --graph --decorate --pretty=oneline --abbrev-commit
+  lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
+  lg = log --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(blue)<%an>%Creset' --abbrev-commit
