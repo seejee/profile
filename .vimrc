@@ -16,6 +16,9 @@ Bundle 'daveray/vimclojure-easy' , {'rtp': 'bundle/vimclojure-2.3.5'}
 Bundle 'VimClojure'
 Bundle 'paredit.vim'
 Bundle 'slim-template/vim-slim'
+Bundle 'godlygeek/tabular'
+Bundle 'wojtekmach/vim-rename'
+Bundle 'airblade/vim-gitgutter'
 
 filetype plugin indent on
 
@@ -57,20 +60,18 @@ set title
 set scrolloff=3
 set ruler
 set backspace=indent,eol,start
+set clipboard=unnamed
 
-set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
+set backupdir=~/.vim-tmpAligntmp,~/tmp,/var/tmp,/tmp
 set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
 
 map Y y$
 
 " reload .vimrc when it is save
 au BufWritePost .vimrc so ~/.vimrc
-
+au BufRead,BufNewFile *.ctl set filetype=ruby
+au BufRead,BufNewFile *.ctl set syntax=ruby
 runtime macros/matchit.vim
-
-" Catch trailing whitespace
-set listchars=tab:>-,trail:·,eol:$
-nmap <silent> <leader>s :set nolist!<CR>
 
 " better split nav
 noremap <C-h> <C-w>h
@@ -83,7 +84,8 @@ map <leader>p <C-w>p
 map <leader>w <C-w>p
 
 " regenerate ctags
-map <Leader>c :!rm tags; ctags --extra=+f -R *<CR><CR>
+"map <Leader>c :!rm tags; ctags --extra=+f -R *<CR><CR>
+map <Leader>c :!rm tags; ctags --extra=+f --exclude=.git --exclude=log -R *<CR><CR>
 
 " use jk as ESC in insert mode inoremap jk <Esc>
 nnoremap <C-e> 3<C-e>
@@ -119,6 +121,13 @@ vmap < <gv
 " Ctrl-p excludes
 set wildignore+=*.png,*.jpg,*.pdf,*.swf
 let g:ctrlp_custom_ignore = '\.git$\|\.o$\|\.app$\|\.dSYM\|\.ipa$\|tags\|public\/images$\|public\/uploads$\|log\|tmp$\|app\/assets\/images'
+
+" Show trailing spaces as a dot
+set listchars=tab:>-,trail:·,eol:$
+nmap <silent> <leader>s :set nolist!<CR>
+
+" Catch trailing whitespace
+set list listchars=trail:.,tab:>>
 
 " Window swapping
 function! MarkWindowSwap()
@@ -201,8 +210,6 @@ function! RunNearestTest()
     call RunTestFile(":" . spec_line_number)
 endfunction
 
-" Show trailing spaces as a dot
-set list listchars=trail:.,tab:>>
 function! TrimSpaces()
     %s/\s*$//
     ''
