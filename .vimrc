@@ -71,6 +71,8 @@ map Y y$
 au BufWritePost .vimrc so ~/.vimrc
 au BufRead,BufNewFile *.ctl set filetype=ruby
 au BufRead,BufNewFile *.ctl set syntax=ruby
+au BufRead,BufNewFile *.ebf set filetype=ruby
+au BufRead,BufNewFile *.ebf set syntax=ruby
 runtime macros/matchit.vim
 
 " better split nav
@@ -110,8 +112,8 @@ set winwidth=100
 " We have to have a winheight bigger than we want to set winminheight. But if
 " " we set winheight to be huge before winminheight, the winminheight set will
 " " fail.
-set winheight=5
-set winminheight=5
+set winheight=15
+set winminheight=15
 set winheight=999
 
 " leave visual mode enabled when indenting blocks
@@ -120,7 +122,7 @@ vmap < <gv
 
 " Ctrl-p excludes
 set wildignore+=*.png,*.jpg,*.pdf,*.swf
-let g:ctrlp_custom_ignore = '\.git$\|\.o$\|\.app$\|\.dSYM\|\.ipa$\|tags\|public\/images$\|public\/uploads$\|log\|tmp$\|app\/assets\/images'
+let g:ctrlp_custom_ignore = '\.git$\|\.o$\|\.app$\|\.dSYM\|\.ipa$\|\.csv\|tags\|public\/images$\|public\/uploads$\|log\|tmp$\|app\/assets\/images'
 
 " Show trailing spaces as a dot
 set listchars=tab:>-,trail:·,eol:$
