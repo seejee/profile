@@ -19,6 +19,7 @@ Bundle 'slim-template/vim-slim'
 Bundle 'godlygeek/tabular'
 Bundle 'wojtekmach/vim-rename'
 Bundle 'airblade/vim-gitgutter'
+Bundle 'SQLUtilities'
 
 filetype plugin indent on
 
