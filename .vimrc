@@ -20,6 +20,7 @@ Bundle 'godlygeek/tabular'
 Bundle 'wojtekmach/vim-rename'
 Bundle 'airblade/vim-gitgutter'
 Bundle 'SQLUtilities'
+Bundle 'kchmck/vim-coffee-script'
 
 filetype plugin indent on
 
@@ -89,7 +90,7 @@ map <leader>w <C-w>p
 " regenerate ctags
 "map <Leader>c :!rm tags; ctags --extra=+f -R *<CR><CR>
 map <Leader>c :!rm tags; ctags --extra=+f --exclude=.git --exclude=log -R *<CR><CR>
-
+autocmd FileType ruby map <Leader>s :w<CR>:!ruby -c %<CR>
 " use jk as ESC in insert mode inoremap jk <Esc>
 nnoremap <C-e> 3<C-e>
 nnoremap <C-y> 3<C-y>
@@ -176,7 +177,7 @@ function! RunTests(filename)
     :silent !echo;echo;echo;echo;echo
 
     if IsMinitest(a:filename)
-      let command_to_run = ":!ruby " . a:filename
+      let command_to_run = ":!ruby -Itest " . a:filename
     elseif IsRspec(a:filename)
       let command_to_run = ":!rspec " . a:filename
     elseif IsJasmine(a:filename)
