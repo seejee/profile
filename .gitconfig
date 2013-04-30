@@ -1,13 +1,13 @@
 [user]
-	name = Chris Geihsler
+  name = Chris Geihsler
   email = cgeihsler@thinkthroughmath.com
 
 [github]
-	user = seejee
+  user = seejee
   token = f1f78ac10a339bcd92597374bc7102cf
 
 [color]
-	status = auto
+  status = auto
   branch = auto
   diff   = auto
 
@@ -15,21 +15,26 @@
   editor = /usr/bin/vim
 
 [merge]
-	tool = /usr/bin/vim
+  tool = /usr/bin/vim
 
 [diff]
-	tool = /usr/bin/vim
-	color = true
+  tool = /usr/bin/vim
+  color = true
 
 [core]
   excludesfile = /Users/seejee/.gitignore
 
 [alias]
+  g  = grep --break --heading --line-number
   st = status
   c  = commit
 
   lol = log --graph --decorate --pretty=oneline --abbrev-commit
   lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
   lg = log --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(blue)<%an>%Creset' --abbrev-commit
+
 [push]
-	default = simple
+  default = simple
+
+[grep]
+  lineNumber = true

@@ -124,7 +124,7 @@ vmap < <gv
 
 " Ctrl-p excludes
 set wildignore+=*.png,*.jpg,*.pdf,*.swf
-let g:ctrlp_custom_ignore = '\.git$\|\.o$\|\.app$\|\.dSYM\|\.ipa$\|\.csv\|tags\|public\/images$\|public\/uploads$\|log\|tmp$\|app\/assets\/images'
+let g:ctrlp_custom_ignore = '\.git$\|\.o$\|\.app$\|\.dSYM\|\.ipa$\|\.csv\|tags\|public\/images$\|public\/uploads$\|log\|tmp$\|app\/assets\/images\|test\/reports'
 
 " Show trailing spaces as a dot
 set listchars=tab:>-,trail:·,eol:$
