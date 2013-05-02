@@ -4,7 +4,6 @@
 
 [github]
   user = seejee
-  token = f1f78ac10a339bcd92597374bc7102cf
 
 [color]
   status = auto
@@ -38,3 +37,6 @@
 
 [grep]
   lineNumber = true
+
+[web]
+  browser = open
