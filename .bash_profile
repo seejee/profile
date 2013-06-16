@@ -3,6 +3,7 @@ if [ -f ~/.bashrc ]; then
 fi
 
 #shared bash history across sessions
+export HISTFILESIZE=2500
 export HISTCONTROL=ignoredups:erasedups
 shopt -s histappend
 export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
@@ -15,14 +16,16 @@ alias tmux="TERM=screen-256color-bce tmux"
 alias rspec='rspec --color'
 alias roobee="ssh roobee -t /usr/local/bin/tmux a"
 alias dw1="ssh prod-lms-ttm-dw-1.thinkthroughmath.com -t tmux a"
+alias dw2="ssh prod-lms-ttm-dw-2.thinkthroughmath.com -t tmux a"
 alias dw1_ssh="ssh -v -i ~/.ssh/ttm-prod-key.pem ubuntu@prod-lms-ttm-dw-1.thinkthroughmath.com"
+alias dw2_ssh="ssh -v -i ~/.ssh/ttm-prod-key.pem ubuntu@prod-lms-ttm-dw-2.thinkthroughmath.com"
 
 if [ -f `brew --prefix`/etc/bash_completion ]; then
   . `brew --prefix`/etc/bash_completion
 fi
 
 source ~/.git-completion.bash
-PS1='\u@\h:\w \[\e[0;34m\]$(__git_ps1 "(%s)")\[\e[m\]\$ '
+#PS1='\u@\h:\w \[\e[0;34m\]$(__git_ps1 "(%s)")\[\e[m\]\$ '
 
 export RUBY_HEAP_MIN_SLOTS=1000000
 export RUBY_HEAP_FREE_MIN=500000

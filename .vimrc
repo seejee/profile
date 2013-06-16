@@ -32,6 +32,11 @@ filetype on
 filetype plugin on
 filetype indent on
 
+command WQ wq
+command Wq wq
+command W w
+command Q w
+
 let g:paredit_mode = 1
 let g:vimclojure#HighlightBuiltins = 1
 let g:vimclojure#ParenRainbow = 1
@@ -89,7 +94,8 @@ map <leader>w <C-w>p
 
 " regenerate ctags
 "map <Leader>c :!rm tags; ctags --extra=+f -R *<CR><CR>
-map <Leader>c :!rm tags; ctags --extra=+f --exclude=.git --exclude=log -R *<CR><CR>
+set tags=./tags,tags,coffee.tags
+map <Leader>c :!rm tags; ctags --extra=+f --exclude=coverage --exclude=.git --exclude=vendor --exclude=log --exclude=public -R *;rm coffee.tags; cd app/assets/; coffeetags -R -f ../../coffee.tags; cd -<CR><CR>
 autocmd FileType ruby map <Leader>s :w<CR>:!ruby -c %<CR>
 " use jk as ESC in insert mode inoremap jk <Esc>
 nnoremap <C-e> 3<C-e>
@@ -124,7 +130,7 @@ vmap < <gv
 
 " Ctrl-p excludes
 set wildignore+=*.png,*.jpg,*.pdf,*.swf
-let g:ctrlp_custom_ignore = '\.git$\|\.o$\|\.app$\|\.dSYM\|\.ipa$\|\.csv\|tags\|public\/images$\|public\/uploads$\|log\|tmp$\|app\/assets\/images\|test\/reports'
+let g:ctrlp_custom_ignore = '\.git$\|\.o$\|\.app$\|\.dSYM\|\.ipa$\|\.csv\|tags\|public\/images$\|public\/uploads$\|log\|tmp$\|source_maps\|app\/assets\/images\|test\/reports'
 
 " Show trailing spaces as a dot
 set listchars=tab:>-,trail:·,eol:$
@@ -216,6 +222,7 @@ endfunction
 
 function! TrimSpaces()
     %s/\s*$//
+    %s/\t/  /g
     ''
 endfunction
 

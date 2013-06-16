@@ -21,12 +21,13 @@
   color = true
 
 [core]
-  excludesfile = /Users/seejee/.gitignore
+	excludesfile = /Users/seejee/.gitignore_global
 
 [alias]
   g  = grep --break --heading --line-number
   st = status
   c  = commit
+  co = checkout
 
   lol = log --graph --decorate --pretty=oneline --abbrev-commit
   lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
