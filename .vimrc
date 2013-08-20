@@ -20,7 +20,11 @@ Bundle 'godlygeek/tabular'
 Bundle 'wojtekmach/vim-rename'
 Bundle 'airblade/vim-gitgutter'
 Bundle 'SQLUtilities'
+Bundle 'Align'
+Bundle 'digitaltoad/vim-jade'
 Bundle 'kchmck/vim-coffee-script'
+Bundle 'Valloric/YouCompleteMe'
+Bundle 'rodjek/vim-puppet'
 
 filetype plugin indent on
 
@@ -58,7 +62,7 @@ set laststatus=2
 set showmatch
 set incsearch
 
-set textwidth=78
+set textwidth=120
 set hls
 
 set number
@@ -80,6 +84,8 @@ au BufRead,BufNewFile *.ctl set filetype=ruby
 au BufRead,BufNewFile *.ctl set syntax=ruby
 au BufRead,BufNewFile *.ebf set filetype=ruby
 au BufRead,BufNewFile *.ebf set syntax=ruby
+autocmd BufRead,BufNewFile *.slimbars setlocal filetype=slim
+
 runtime macros/matchit.vim
 
 " better split nav
@@ -95,7 +101,7 @@ map <leader>w <C-w>p
 " regenerate ctags
 "map <Leader>c :!rm tags; ctags --extra=+f -R *<CR><CR>
 set tags=./tags,tags,coffee.tags
-map <Leader>c :!rm tags; ctags --extra=+f --exclude=coverage --exclude=.git --exclude=vendor --exclude=log --exclude=public -R *;rm coffee.tags; cd app/assets/; coffeetags -R -f ../../coffee.tags; cd -<CR><CR>
+map <Leader>c :!rm tags; ctags --extra=+f --exclude=coverage --exclude=.git --exclude=vendor --exclude=log --exclude=node_modules --exclude=public -R *;rm coffee.tags; cd app/assets/; coffeetags -R -f ../../coffee.tags; cd -<CR><CR>
 autocmd FileType ruby map <Leader>s :w<CR>:!ruby -c %<CR>
 " use jk as ESC in insert mode inoremap jk <Esc>
 nnoremap <C-e> 3<C-e>
@@ -130,7 +136,7 @@ vmap < <gv
 
 " Ctrl-p excludes
 set wildignore+=*.png,*.jpg,*.pdf,*.swf
-let g:ctrlp_custom_ignore = '\.git$\|\.o$\|\.app$\|\.dSYM\|\.ipa$\|\.csv\|tags\|public\/images$\|public\/uploads$\|log\|tmp$\|source_maps\|app\/assets\/images\|test\/reports'
+let g:ctrlp_custom_ignore = '\.git$\|\.o$\|\.app$\|\.dSYM\|\.ipa$\|\.csv\|tags\|public\/images$\|public\/uploads$\|log\|tmp$\|source_maps\|app\/assets\/images\|test\/reports\|node_modules'
 
 " Show trailing spaces as a dot
 set listchars=tab:>-,trail:·,eol:$
