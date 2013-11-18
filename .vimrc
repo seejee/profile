@@ -1,3 +1,5 @@
+runtime macros/matchit.vim
+
 let mapleader = ","
 let maplocalleader = "\\"
 set nocompatible
@@ -22,9 +24,14 @@ Bundle 'airblade/vim-gitgutter'
 Bundle 'SQLUtilities'
 Bundle 'Align'
 Bundle 'digitaltoad/vim-jade'
+Bundle 'pangloss/vim-javascript'
 Bundle 'kchmck/vim-coffee-script'
 Bundle 'Valloric/YouCompleteMe'
 Bundle 'rodjek/vim-puppet'
+Bundle 'elixir-lang/vim-elixir'
+Bundle 'editorconfig/editorconfig-vim'
+Bundle 'tpope/vim-haml'
+Bundle 'tpope/vim-unimpaired'
 
 filetype plugin indent on
 
@@ -106,7 +113,7 @@ autocmd FileType ruby map <Leader>s :w<CR>:!ruby -c %<CR>
 " use jk as ESC in insert mode inoremap jk <Esc>
 nnoremap <C-e> 3<C-e>
 nnoremap <C-y> 3<C-y>
-
+map <leader>j <Esc>:%!json_xs -f json -t json-pretty<CR>
 colorscheme solarized
 set background=dark
 
@@ -136,7 +143,7 @@ vmap < <gv
 
 " Ctrl-p excludes
 set wildignore+=*.png,*.jpg,*.pdf,*.swf
-let g:ctrlp_custom_ignore = '\.git$\|\.o$\|\.app$\|\.dSYM\|\.ipa$\|\.csv\|tags\|public\/images$\|public\/uploads$\|log\|tmp$\|source_maps\|app\/assets\/images\|test\/reports\|node_modules'
+let g:ctrlp_custom_ignore = '\.git$\|\.o$\|\.app$\|\.beam$\|\.dSYM\|\.ipa$\|\.csv\|tags\|public\/images$\|public\/uploads$\|log\|tmp$\|source_maps\|app\/assets\/images\|test\/reports\|node_modules\|bower_components'
 
 " Show trailing spaces as a dot
 set listchars=tab:>-,trail:·,eol:$
