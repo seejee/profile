@@ -32,6 +32,8 @@ Bundle 'elixir-lang/vim-elixir'
 Bundle 'editorconfig/editorconfig-vim'
 Bundle 'tpope/vim-haml'
 Bundle 'tpope/vim-unimpaired'
+Bundle 'vim-scripts/EasyGrep'
+Bundle 'maxbrunsfeld/vim-yankstack'
 
 filetype plugin indent on
 
@@ -54,6 +56,7 @@ let g:vimclojure#ParenRainbow = 1
 let vimclojure#WantNailgun = 1
 let vimclojure#SplitPos = "bottom"
 :helptags ~/.vim/bundle/VimClojure/doc/
+
 
 set hlsearch
 set hidden
@@ -83,6 +86,8 @@ set clipboard=unnamed
 set backupdir=~/.vim-tmpAligntmp,~/tmp,/var/tmp,/tmp
 set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
 
+set macmeta
+
 map Y y$
 
 " reload .vimrc when it is save
@@ -104,6 +109,10 @@ noremap <C-l> <C-w>l
 "quickly jump between two windows
 map <leader>p <C-w>p
 map <leader>w <C-w>p
+
+" YankStack bindings
+nmap <leader>p <Plug>yankstack_substitute_older_paste
+nmap <leader>P <Plug>yankstack_substitute_newer_paste
 
 " regenerate ctags
 "map <Leader>c :!rm tags; ctags --extra=+f -R *<CR><CR>
