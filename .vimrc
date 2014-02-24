@@ -34,6 +34,7 @@ Bundle 'tpope/vim-haml'
 Bundle 'tpope/vim-unimpaired'
 Bundle 'vim-scripts/EasyGrep'
 Bundle 'maxbrunsfeld/vim-yankstack'
+Bundle 'plasticboy/vim-markdown'
 
 filetype plugin indent on
 
@@ -100,6 +101,10 @@ autocmd BufRead,BufNewFile *.slimbars setlocal filetype=slim
 
 runtime macros/matchit.vim
 
+" completion
+
+let g:EclimCompletionMethod = 'omnifunc'
+
 " better split nav
 noremap <C-h> <C-w>h
 noremap <C-j> <C-w>j
@@ -117,7 +122,7 @@ nmap <leader>P <Plug>yankstack_substitute_newer_paste
 " regenerate ctags
 "map <Leader>c :!rm tags; ctags --extra=+f -R *<CR><CR>
 set tags=./tags,tags,coffee.tags
-map <Leader>c :!rm tags; ctags --extra=+f --exclude=coverage --exclude=.git --exclude=vendor --exclude=log --exclude=node_modules --exclude=public -R *;rm coffee.tags; cd app/assets/; coffeetags -R -f ../../coffee.tags; cd -<CR><CR>
+map <Leader>c :!rm tags; ctags --extra=+f --exclude=coverage --exclude=.git --exclude=vendor --exclude=log --exclude=node_modules --exclude=public -R *;rm coffee.tags; coffeetags -R -f coffee.tags<CR><CR>
 autocmd FileType ruby map <Leader>s :w<CR>:!ruby -c %<CR>
 " use jk as ESC in insert mode inoremap jk <Esc>
 nnoremap <C-e> 3<C-e>
