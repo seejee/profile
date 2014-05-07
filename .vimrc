@@ -10,6 +10,7 @@ call vundle#rc()
 
 Bundle 'gmarik/vundle'
 Bundle 'tpope/vim-fugitive'
+Bundle 'tpope/vim-rails'
 Bundle 'vim-ruby/vim-ruby'
 Bundle 'L9'
 Bundle 'kien/ctrlp.vim'
@@ -35,6 +36,7 @@ Bundle 'tpope/vim-unimpaired'
 Bundle 'vim-scripts/EasyGrep'
 Bundle 'maxbrunsfeld/vim-yankstack'
 Bundle 'plasticboy/vim-markdown'
+Bundle 'benmills/vimux'
 
 filetype plugin indent on
 
@@ -128,6 +130,8 @@ autocmd FileType ruby map <Leader>s :w<CR>:!ruby -c %<CR>
 nnoremap <C-e> 3<C-e>
 nnoremap <C-y> 3<C-y>
 map <leader>j <Esc>:%!json_xs -f json -t json-pretty<CR>
+
+" color scheme
 colorscheme solarized
 set background=dark
 
@@ -210,14 +214,15 @@ function! RunTests(filename)
     :silent !echo;echo;echo;echo;echo
 
     if IsMinitest(a:filename)
-      let command_to_run = ":!ruby -Itest " . a:filename
+      let command_to_run = "ruby -Itest " . a:filename
     elseif IsRspec(a:filename)
-      let command_to_run = ":!rspec " . a:filename
+      let command_to_run = "rspec " . a:filename
     elseif IsJasmine(a:filename)
-      let command_to_run = ":!jasmine-node " . a:filename
+      let command_to_run = "jasmine-node " . a:filename
     end
 
-    exec command_to_run
+    :call VimuxRunCommand(command_to_run)
+    :redraw!
 endfunction
 
 function! SetTestFile()
@@ -253,6 +258,6 @@ function! TrimSpaces()
     ''
 endfunction
 
-map <leader>t :call RunTestFile()<cr>
-map <leader>T :call RunNearestTest()<cr>
-map <leader>a :call RunTests('spec')<cr>
+map <leader>t :call RunTestFile()<cr><cr>
+map <leader>T :call RunNearestTest()<cr><cr>
+map <leader>a :call RunTests('spec')<cr><cr>
