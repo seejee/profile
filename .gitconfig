@@ -1,6 +1,6 @@
 [user]
-  name = Chris Geihsler
-  email = cgeihsler@thinkthroughmath.com
+	name =  Chris Geihsler
+	email = chris@geihsler.net
 
 [github]
   user = seejee
@@ -14,14 +14,17 @@
   editor = /usr/bin/vim
 
 [merge]
-  tool = /usr/bin/vim
+	tool = vim
+
+[mergetool]
+  prompt = false
 
 [diff]
   tool = /usr/bin/vim
   color = true
 
 [core]
-	excludesfile = /Users/seejee/.gitignore_global
+  excludesfile = /Users/seejee/.gitignore_global
 
 [alias]
   g  = grep --break --heading --line-number
@@ -41,3 +44,4 @@
 
 [web]
   browser = open
+[heroku]
