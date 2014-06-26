@@ -10,33 +10,43 @@ call vundle#rc()
 
 Bundle 'gmarik/vundle'
 Bundle 'tpope/vim-fugitive'
-Bundle 'tpope/vim-rails'
-Bundle 'vim-ruby/vim-ruby'
-Bundle 'L9'
-Bundle 'kien/ctrlp.vim'
-Bundle 'altercation/vim-colors-solarized'
-Bundle 'daveray/vimclojure-easy' , {'rtp': 'bundle/vimclojure-2.3.5'}
-Bundle 'VimClojure'
-Bundle 'paredit.vim'
-Bundle 'slim-template/vim-slim'
 Bundle 'godlygeek/tabular'
 Bundle 'wojtekmach/vim-rename'
 Bundle 'airblade/vim-gitgutter'
-Bundle 'SQLUtilities'
-Bundle 'Align'
-Bundle 'digitaltoad/vim-jade'
-Bundle 'pangloss/vim-javascript'
-Bundle 'kchmck/vim-coffee-script'
+Bundle 'L9'
+Bundle 'kien/ctrlp.vim'
+Bundle 'altercation/vim-colors-solarized'
 Bundle 'Valloric/YouCompleteMe'
-Bundle 'rodjek/vim-puppet'
-Bundle 'elixir-lang/vim-elixir'
+Bundle 'benmills/vimux'
+Bundle 'kien/rainbow_parentheses.vim'
+
 Bundle 'editorconfig/editorconfig-vim'
-Bundle 'tpope/vim-haml'
 Bundle 'tpope/vim-unimpaired'
 Bundle 'vim-scripts/EasyGrep'
 Bundle 'maxbrunsfeld/vim-yankstack'
 Bundle 'plasticboy/vim-markdown'
-Bundle 'benmills/vimux'
+
+Bundle 'tpope/vim-rails'
+Bundle 'vim-ruby/vim-ruby'
+Bundle 'slim-template/vim-slim'
+Bundle 'tpope/vim-haml'
+
+Bundle 'guns/vim-clojure-highlight'
+Bundle 'tpope/vim-leiningen'
+Bundle 'tpope/vim-fireplace'
+Bundle 'paredit.vim'
+
+Bundle 'SQLUtilities'
+Bundle 'Align'
+
+Bundle 'digitaltoad/vim-jade'
+Bundle 'pangloss/vim-javascript'
+Bundle 'kchmck/vim-coffee-script'
+Bundle 'mustache/vim-mustache-handlebars'
+
+Bundle 'elixir-lang/vim-elixir'
+
+Bundle 'jnwhiteh/vim-golang'
 
 filetype plugin indent on
 
@@ -48,18 +58,12 @@ filetype on
 filetype plugin on
 filetype indent on
 
-command WQ wq
-command Wq wq
-command W w
-command Q w
+command! WQ wq
+command! Wq wq
+command! W w
+command! Q w
 
 let g:paredit_mode = 1
-let g:vimclojure#HighlightBuiltins = 1
-let g:vimclojure#ParenRainbow = 1
-let vimclojure#WantNailgun = 1
-let vimclojure#SplitPos = "bottom"
-:helptags ~/.vim/bundle/VimClojure/doc/
-
 
 set hlsearch
 set hidden
@@ -121,6 +125,11 @@ map <leader>w <C-w>p
 nmap <leader>p <Plug>yankstack_substitute_older_paste
 nmap <leader>P <Plug>yankstack_substitute_newer_paste
 
+" Clojure bindings
+nmap <leader>; :%Eval<CR>
+nmap <leader>: :Eval<CR>
+
+
 " regenerate ctags
 "map <Leader>c :!rm tags; ctags --extra=+f -R *<CR><CR>
 set tags=./tags,tags,coffee.tags
@@ -161,7 +170,7 @@ vmap < <gv
 
 " Ctrl-p excludes
 set wildignore+=*.png,*.jpg,*.pdf,*.swf
-let g:ctrlp_custom_ignore = '\.git$\|\.o$\|\.app$\|\.beam$\|\.dSYM\|\.ipa$\|\.csv\|tags\|public\/images$\|public\/uploads$\|log\|tmp$\|source_maps\|app\/assets\/images\|test\/reports\|node_modules\|bower_components'
+let g:ctrlp_custom_ignore = '\.git$\|\.o$\|\.app$\|\.beam$\|\.dSYM\|\.ipa$\|\.csv\|tags\|public\/images$\|public\/uploads$\|log\|tmp$\|source_maps\|app\/assets\/images\|test\/reports\|node_modules\|bower_components\|dist'
 
 " Show trailing spaces as a dot
 set listchars=tab:>-,trail:·,eol:$
@@ -196,16 +205,23 @@ nmap <silent> <leader><space> :call TrimSpaces()<CR>
 
 " Testy McTestertons
 function! IsMinitest(filename)
-  echo a:filename
-  return match(a:filename, '_test.rb$') != -1
+  let split_filename = split(a:filename, ":")[0]
+  return match(split_filename, '_test.rb$') != -1
 endfunction
 
 function! IsRspec(filename)
-  return match(a:filename, '_spec.rb$') != -1
+  let split_filename = split(a:filename, ":")[0]
+  return match(split_filename, '_spec.rb$') != -1
 endfunction
 
 function! IsJasmine(filename)
-  return match(a:filename, '_spec.js$') != -1
+  let split_filename = split(a:filename, ":")[0]
+  return match(split_filename, '_spec.js$') != -1
+endfunction
+
+function! IsExUnit(filename)
+  let split_filename = split(a:filename, ":")[0]
+  return match(split_filename, '_test.exs$') != -1
 endfunction
 
 function! RunTests(filename)
@@ -214,15 +230,17 @@ function! RunTests(filename)
     :silent !echo;echo;echo;echo;echo
 
     if IsMinitest(a:filename)
-      let command_to_run = "ruby -Itest " . a:filename
+      let command_to_run = "m " . a:filename
     elseif IsRspec(a:filename)
       let command_to_run = "rspec " . a:filename
     elseif IsJasmine(a:filename)
       let command_to_run = "jasmine-node " . a:filename
+    elseif IsExUnit(a:filename)
+      let command_to_run = "elixir " . a:filename
     end
 
-    :call VimuxRunCommand(command_to_run)
-    :redraw!
+    call VimuxRunCommand(command_to_run)
+    redraw!
 endfunction
 
 function! SetTestFile()
@@ -238,7 +256,7 @@ function! RunTestFile(...)
     endif
 
     " Run the tests for the previously-marked file.
-    let in_spec_file = IsMinitest(expand("%")) || IsRspec(expand("%")) || IsJasmine(expand("%"))
+    let in_spec_file = IsMinitest(expand("%")) || IsRspec(expand("%")) || IsJasmine(expand("%")) || IsExUnit(expand("%"))
     if in_spec_file
         call SetTestFile()
     elseif !exists("t:grb_test_file")
