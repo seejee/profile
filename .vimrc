@@ -48,6 +48,8 @@ Bundle 'elixir-lang/vim-elixir'
 
 Bundle 'jnwhiteh/vim-golang'
 
+Bundle 'wting/rust.vim'
+
 filetype plugin indent on
 
 nnoremap ' `
@@ -227,7 +229,6 @@ endfunction
 function! RunTests(filename)
     " Write the file and run tests for the given filename
     :w
-    :silent !echo;echo;echo;echo;echo
 
     if IsMinitest(a:filename)
       let command_to_run = "m " . a:filename
@@ -240,7 +241,6 @@ function! RunTests(filename)
     end
 
     call VimuxRunCommand(command_to_run)
-    redraw!
 endfunction
 
 function! SetTestFile()
