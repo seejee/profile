@@ -1,0 +1,5 @@
+#*
+*.elc
+*.eld
+el-get/
+auto-save-list
