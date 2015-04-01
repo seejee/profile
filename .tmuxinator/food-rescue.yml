@@ -1,0 +1,16 @@
+# ~/.tmuxinator/food-rescue.yml
+
+name: food-rescue
+root: ~/code/food-rescue
+
+# Runs in each window and pane before window/pane specific commands. Useful for setting up interpreter versions.
+pre_window: rvm use .
+
+windows:
+  - editor:
+      layout: 47b2,318x83,0,0[318x71,0,0,0,318x11,0,72,3]
+      panes:
+        - vim
+        - clear
+  - shell:  git pull --rebase
+  - server: clear

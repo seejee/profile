@@ -1,0 +1,11 @@
+# ~/.tmuxinator/collective.yml
+
+name: collective
+root: ~/code/collective-archive-site-generator
+
+windows:
+  - editor:
+      layout: main-horizontal
+      panes:
+        - vim
+        - grunt watch

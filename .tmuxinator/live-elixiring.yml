@@ -1,0 +1,14 @@
+# ~/.tmuxinator/live-elixiring.yml
+
+name: live-elixiring
+root: ~/code/live-elixiring
+
+windows:
+  - editor:
+      layout: 47b2,318x83,0,0[318x71,0,0,0,318x11,0,72,3]
+      panes:
+        - vim
+        - clear
+  - iex: clear
+  - assets: clear
+  - server: mix phoenix.start

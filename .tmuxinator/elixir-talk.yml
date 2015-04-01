@@ -1,0 +1,29 @@
+# ~/.tmuxinator/elixir-talk.yml
+
+name: elixir-talk
+root: ~/code/elixir-talk
+
+# Optional tmux socket
+# socket_name: foo
+
+# Runs before everything. Use it to start daemons etc.
+# pre: sudo /etc/rc.d/mysqld start
+
+# Runs in each window and pane before window/pane specific commands. Useful for setting up interpreter versions.
+# pre_window: rbenv shell 2.0.0-p247
+
+# Pass command line options to tmux. Useful for specifying a different tmux.conf.
+# tmux_options: -f ~/.tmux.mac.conf
+
+# Change the command to call tmux.  This can be used by derivatives/wrappers like byobu.
+# tmux_command: byobu
+
+windows:
+  - elixir-server: cd elixir-server; vim
+  - node-server: cd node-server; vim
+  - node-client: cd node-client; vim
+  - logs: 
+      layout: 47b2,318x83,0,0[318x71,0,0,0,318x11,0,72,3]
+      panes:
+        - clear
+        - clear

@@ -1,0 +1,9 @@
+# ~/.tmuxinator/patternlab.yml
+
+name: patternlab
+root: ~/code/ux-pattern
+
+windows:
+  - editor:
+      panes:
+        - vim
