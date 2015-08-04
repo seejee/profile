@@ -1,6 +1,6 @@
 [user]
-	name =  Chris Geihsler
-	email = chris@geihsler.net
+  name =  Chris Geihsler
+  email = chris@geihsler.net
 
 [github]
   user = seejee
@@ -11,20 +11,21 @@
   diff   = auto
 
 [core]
-  editor = /usr/bin/vim
+  editor = /usr/local/bin/vim
 
 [merge]
-	tool = vim
+  tool = vim
 
 [mergetool]
   prompt = false
 
 [diff]
-  tool = /usr/bin/vim
+  tool = /usr/local/bin/vim
   color = true
 
 [core]
   excludesfile = /Users/seejee/.gitignore_global
+  whitespace = trailing-space,space-before-tab
 
 [alias]
   g  = grep --break --heading --line-number
@@ -35,6 +36,7 @@
   lol = log --graph --decorate --pretty=oneline --abbrev-commit
   lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
   lg = log --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(blue)<%an>%Creset' --abbrev-commit
+  inject = "!f() { set -e; HASH=`git show $1 --pretty=format:\"%H\" -q`; shift; git commit -m \"fixup! $HASH\" $*; [ -n \"$(git diff-files)\" ] && git stash && DIRTY=1; git rebase $HASH^^ -i --autosquash; [ -n \"$DIRTY\" ] && git stash pop;}; f"
 
 [push]
   default = simple
@@ -45,3 +47,5 @@
 [web]
   browser = open
 [heroku]
+[apply]
+  whitespace = nowarn
