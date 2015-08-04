@@ -19,10 +19,11 @@ Bundle 'altercation/vim-colors-solarized'
 Bundle 'Valloric/YouCompleteMe'
 Bundle 'benmills/vimux'
 Bundle 'kien/rainbow_parentheses.vim'
+Bundle 'christoomey/vim-tmux-navigator'
 
 Bundle 'editorconfig/editorconfig-vim'
 Bundle 'tpope/vim-unimpaired'
-Bundle 'vim-scripts/EasyGrep'
+Bundle 'dkprice/vim-easygrep'
 Bundle 'maxbrunsfeld/vim-yankstack'
 Bundle 'plasticboy/vim-markdown'
 
@@ -38,6 +39,7 @@ Bundle 'paredit.vim'
 
 Bundle 'SQLUtilities'
 Bundle 'Align'
+Bundle 'vim-scripts/AnsiEsc.vim'
 
 Bundle 'digitaltoad/vim-jade'
 Bundle 'pangloss/vim-javascript'
@@ -46,9 +48,14 @@ Bundle 'mustache/vim-mustache-handlebars'
 
 Bundle 'elixir-lang/vim-elixir'
 
+Bundle 'ElmCast/elm-vim'
+
 Bundle 'jnwhiteh/vim-golang'
 
 Bundle 'wting/rust.vim'
+Bundle 'cespare/vim-toml'
+
+Bundle 'mxw/vim-jsx'
 
 filetype plugin indent on
 
@@ -107,6 +114,12 @@ au BufRead,BufNewFile *.ebf set filetype=ruby
 au BufRead,BufNewFile *.ebf set syntax=ruby
 autocmd BufRead,BufNewFile *.slimbars setlocal filetype=slim
 
+" Turn on spell check for certain file types
+autocmd BufRead,BufNewFile *.md setlocal spell spelllang=en_us
+autocmd BufRead,BufNewFile *.txt setlocal spell spelllang=en_us
+autocmd FileType gitcommit setlocal spell spelllang=en_us
+set complete+=kspell
+
 runtime macros/matchit.vim
 
 " completion
@@ -131,6 +144,14 @@ nmap <leader>P <Plug>yankstack_substitute_newer_paste
 nmap <leader>; :%Eval<CR>
 nmap <leader>: :Eval<CR>
 
+" Elm bindings
+au FileType elm nmap <leader>b <Plug>(elm-make)
+au FileType elm nmap <leader>m <Plug>(elm-make-main)
+au FileType elm nmap <leader>t <Plug>(elm-test)
+au FileType elm nmap <leader>r <Plug>(elm-repl)
+au FileType elm nmap <leader>e <Plug>(elm-error-detail)
+au FileType elm nmap <leader>d <Plug>(elm-show-docs)
+au FileType elm nmap <leader>w <Plug>(elm-browse-docs)
 
 " regenerate ctags
 "map <Leader>c :!rm tags; ctags --extra=+f -R *<CR><CR>
@@ -171,8 +192,11 @@ vmap > >gv
 vmap < <gv
 
 " Ctrl-p excludes
-set wildignore+=*.png,*.jpg,*.pdf,*.swf
-let g:ctrlp_custom_ignore = '\.git$\|\.o$\|\.app$\|\.beam$\|\.dSYM\|\.ipa$\|\.csv\|tags\|public\/images$\|public\/uploads$\|log\|tmp$\|source_maps\|app\/assets\/images\|test\/reports\|node_modules\|bower_components\|dist'
+set wildignore+=*.png,*.jpg,*.pdf,*.swf,spec/etl/apangea/**,log/**,tmp/**,temp/**
+let g:ctrlp_custom_ignore = '\.git$\|\.o$\|\.app$\|\.beam$\|\.dSYM\|\.ipa$\|\.csv\|tags\|public\/images$\|public\/uploads$\|log\|tmp$\|source_maps\|app\/assets\/images\|test\/reports\|node_modules\|bower_components\|^dist\|deps\|priv\|spec\/etl\/apangea'
+
+" EasyGrep exclude
+let g:EasyGrepFilesToExclude = 'tags,log,logs,tmp,temp,vendor/,spec/etl/apangea'
 
 " Show trailing spaces as a dot
 set listchars=tab:>-,trail:·,eol:$
@@ -184,6 +208,11 @@ set list listchars=trail:.,tab:>>
 " Window swapping
 function! MarkWindowSwap()
     let g:markedWinNum = winnr()
+endfunction
+
+function! GitGrep(pattern)
+    silent !clear
+    execute "!git grep " . a:pattern
 endfunction
 
 function! DoWindowSwap()
@@ -237,7 +266,7 @@ function! RunTests(filename)
     elseif IsJasmine(a:filename)
       let command_to_run = "jasmine-node " . a:filename
     elseif IsExUnit(a:filename)
-      let command_to_run = "elixir " . a:filename
+      let command_to_run = "mix test " . a:filename
     end
 
     call VimuxRunCommand(command_to_run)
