@@ -1,16 +1,32 @@
-;; set GC threshold to 20MB
-(setq gc-cons-threshold 20000000)
+;;; init.el --- Spacemacs Initialization File
+;;
+;; Copyright (c) 2012-2014 Sylvain Benner
+;; Copyright (c) 2014-2015 Sylvain Benner & Contributors
+;;
+;; Author: Sylvain Benner <sylvain.benner@gmail.com>
+;; URL: https://github.com/syl20bnr/spacemacs
+;;
+;; This file is not part of GNU Emacs.
+;;
+;;; License: GPLv3
 
-;; backup files
-(setq
-   backup-by-copying t      ; don't clobber symlinks
-   backup-directory-alist
-    '(("." . "~/.saves"))    ; don't litter my fs tree
-   delete-old-versions t
-   kept-new-versions 6
-   kept-old-versions 2
-   version-control t)       ; use versioned backups
+;; Without this comment emacs25 adds (package-initialize) here
+;; (package-initialize)
 
-(load "~/.emacs.d/gui.el")
-(load "~/.emacs.d/custom.el")
-(load "~/.emacs.d/el-get.el")
+(setq gc-cons-threshold 100000000)
+(defconst spacemacs-version          "0.104.2" "Spacemacs version.")
+(defconst spacemacs-emacs-min-version   "24.3" "Minimal version of Emacs.")
+
+(defun spacemacs/emacs-version-ok ()
+  (version<= spacemacs-emacs-min-version emacs-version))
+
+(when (spacemacs/emacs-version-ok)
+  (load-file (concat user-emacs-directory "core/core-load-paths.el"))
+  (require 'core-spacemacs)
+  (require 'core-configuration-layer)
+  (spacemacs/init)
+  (spacemacs/maybe-install-dotfile)
+  (configuration-layer/sync)
+  (spacemacs/setup-startup-hook)
+  (require 'server)
+  (unless (server-running-p) (server-start)))

@@ -1,5 +1,6 @@
 !.emacs.d/
 !.tmuxinator/
+!.spacemacs
 
 Music
 Documents
@@ -28,5 +29,6 @@ Desktop
 vendor/bundle
 .DS_Store
 
+!.*
 *
 
