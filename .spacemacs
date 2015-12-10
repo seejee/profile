@@ -24,19 +24,19 @@ values."
      ;; <M-m f e R> (Emacs style) to install them.
      ;; ----------------------------------------------------------------
      auto-completion
-     ;; better-defaults
+     better-defaults
+     colors
      osx
      emacs-lisp
      git
      markdown
-
-     ;; org
-     ;; (shell :variables
-     ;;        shell-default-height 30
-     ;;        shell-default-position 'bottom)
-     ;; spell-checking
+     erlang
+     elixir
+     javascript
+     spell-checking
      syntax-checking
      version-control
+     shell
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -47,7 +47,8 @@ values."
                                       coffee-mode
                                       rust-mode
                                       key-chord
-                                      js2-mode
+                                      scss-mode
+                                      ;;js2-mode
                                       )
    ;; A list of packages and/or extensions that will not be install and loaded.
    dotspacemacs-excluded-packages '()
@@ -86,17 +87,18 @@ values."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(monokai
+   dotspacemacs-themes '(solarized-dark
+                         monokai
                          spacemacs-light)
    ;; If non nil the cursor color matches the state color.
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font. `powerline-scale' allows to quickly tweak the mode-line
    ;; size to make separators look not too crappy.
    dotspacemacs-default-font '("Source Code Pro"
-                               :size 13
+                               :size 14 
                                :weight normal
                                :width normal
-                               :powerline-scale 1.1)
+                               :powerline-scale 1.2)
    ;; The leader key
    dotspacemacs-leader-key "SPC"
    ;; The leader key accessible in `emacs state' and `insert state'
@@ -153,10 +155,11 @@ values."
    ;; If non nil `spacemacs/toggle-fullscreen' will not use native fullscreen.
    ;; Use to disable fullscreen animations in OSX. (default nil)
    dotspacemacs-fullscreen-use-non-native nil
+   ;;ns-use-native-fullscreen nil
    ;; If non nil the frame is maximized when Emacs starts up.
    ;; Takes effect only if `dotspacemacs-fullscreen-at-startup' is nil.
    ;; (default nil) (Emacs 24.4+ only)
-   dotspacemacs-maximized-at-startup nil
+   dotspacemacs-maximized-at-startup t
    ;; A value from the range (0..100), in increasing opacity, which describes
    ;; the transparency level of a frame when it's active or selected.
    ;; Transparency can be toggled through `toggle-transparency'. (default 90)
@@ -206,6 +209,14 @@ values."
     ))
 
 (defun dotspacemacs/user-config ()
+  (add-hook 'alchemist-mode-hook 'company-mode)
+  (setq ns-auto-hide-menu-bar t)
+  (tool-bar-mode 0)
+  ;;(setq ns-use-native-fullscreen nil)
+
+  ;;(custom-set-variables
+  ;; '(initial-frame-alist (quote ((fullscreen . maximized)))))
+
   ;; tabs and spaces
   (setq coffee-tab-width 2)
   (setq javascript-indent-level 2)
@@ -216,7 +227,14 @@ values."
   (setq web-mode-code-indent-offset 2)
   (setq css-indent-offset 2)
 
-  ;;Exit insert mode by pressing j and then j quickly
+  ;; don't yell at me about tags
+  (setq large-file-warning-threshold nil)
+
+  ;; line numbers with a space before the line text
+  (global-linum-mode)
+  (setq linum-format "%d ")
+
+  ;; Exit insert mode by pressing j and then j quickly
   (setq key-chord-two-keys-delay 0.5)
   (key-chord-define evil-insert-state-map "jj" 'evil-normal-state)
   (key-chord-mode 1)
@@ -233,10 +251,32 @@ values."
   (global-set-key (kbd "C-k") 'evil-window-up)
   (global-set-key (kbd "C-j") 'evil-window-down)
 
-  (evil-search-highlight-persist f)
+  (evil-search-highlight-persist nil)
+  (evil-leader/set-key "ga" 'vc-annotate)
 
   (key-chord-define evil-normal-state-map ",t" 'seejee/run-tests)
-  )
+
+  ;; Don't :q quit emacs if you're on the last buffer
+  (evil-define-command evil-quit (&optional force)
+    "MODIFIED TO ONLY CLOSE WINDOW. Closes the current window, current frame, Emacs.
+If the current frame belongs to some client the client connection
+is closed."
+    :repeat nil
+    (interactive "<!>")
+    (condition-case nil
+        (delete-window)
+      (error
+       (if (and (boundp 'server-buffer-clients)
+                (fboundp 'server-edit)
+                (fboundp 'server-buffer-done)
+                server-buffer-clients)
+           (if force
+               (server-buffer-done (current-buffer))
+             (server-edit))
+         (message "No more windows to remove. Use 'bd' to destroy this buffer")))))
+
+  (evil-ex-define-cmd "q[uit]" 'evil-quit)
+)
 
 
 ;; Do not write anything past this comment. This is where Emacs will
