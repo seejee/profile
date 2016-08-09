@@ -4,7 +4,7 @@ name: reporting
 root: ~/code/reporting
 
 # Runs in each window and pane before window/pane specific commands. Useful for setting up interpreter versions.
-pre_window: rvm use .
+pre_window: export HISTFILE=~/.bash_history-reporting; rvm use .
 
 windows:
   - editor:

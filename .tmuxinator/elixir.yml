@@ -1,7 +1,7 @@
 # ~/.tmuxinator/elixir.yml
 
 name: elixir
-root: ~/code/exercism/elixir/word-count
+root: ~/code/elixir
 
 windows:
   - editor:

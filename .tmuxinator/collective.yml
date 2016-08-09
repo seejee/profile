@@ -2,6 +2,7 @@
 
 name: collective
 root: ~/code/collective-archive-site-generator
+pre_window: export HISTFILE=~/.bash_history-collective
 
 windows:
   - editor:
