@@ -39,9 +39,13 @@ values."
      version-control
      shell
      elm
-     ruby
+     (ruby :variables
+           ruby-version-manager 'rvm
+           ruby-test-runner 'ruby-test
+           )
      rust
      osx
+     react
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -52,6 +56,7 @@ values."
                                       scss-mode
                                       tern-auto-complete
                                       haml-mode
+                                      diff-hl
                                       )
    ;; A list of packages and/or extensions that will not be install and loaded.
    dotspacemacs-excluded-packages '()
@@ -257,6 +262,12 @@ values."
     ))
 
 (defun dotspacemacs/user-config ()
+  ;; Configure git gutter (diff-hl) the way I like it
+  (setq diff-hl-side 'left)
+  (global-diff-hl-mode)
+  (diff-hl-flydiff-mode)
+  (set-fringe-style '(8 . 0))
+
   (set-keyboard-coding-system nil)
   (setq-default git-enable-github-support t)
   (global-evil-surround-mode 1)
@@ -297,7 +308,11 @@ values."
   (key-chord-define evil-normal-state-map ",," 'seejee/switch-to-previous-buffer)
 
   (setq projectile-globally-ignored-directories
-        '("solr" "log")
+        '("solr" "log" "app/assets/bower")
+        )
+
+  (setq projectile-globally-ignored-files
+        '("TAGS")
         )
 
   (global-set-key (kbd "C-l") 'evil-window-right)
@@ -311,7 +326,8 @@ values."
   (setq markdown-open-command "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome")
   (evil-leader/set-key "mo" 'markdown-open)
 
-  (key-chord-define evil-normal-state-map ",t" 'seejee/run-tests)
+  (key-chord-define evil-normal-state-map ",t" 'ruby-test-run)
+  (key-chord-define evil-normal-state-map ",T" 'ruby-test-run-at-point)
 
   ;; Don't :q quit emacs if you're on the last buffer
   (evil-define-command evil-quit (&optional force)
@@ -334,6 +350,9 @@ is closed."
 
   (evil-ex-define-cmd "q[uit]" 'evil-quit)
 
+  (defun local-to-let ()
+    (interactive) (kmacro-exec-ring-item (quote ([108 101 116 40 4 58 19 32 return 2 41 4 4 32 123 4 5 32 63 backspace 125 16 14] 0 "%d")) nil))
+
   (defun embiggen-steve ()
     (interactive)
     (set-face-attribute 'default nil :height 150))
@@ -354,7 +373,8 @@ is closed."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(mac-option-modifier (quote (:ordinary meta :function meta :mouse meta))))
+ '(mac-option-modifier (quote (:ordinary meta :function meta :mouse meta)))
+ '(paradox-github-token t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
