@@ -18,6 +18,9 @@ values."
    ;; of a list then all discovered layers will be installed.
    dotspacemacs-configuration-layers
    '(
+     python
+     csv
+     yaml
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
@@ -40,6 +43,7 @@ values."
      shell
      elm
      (ruby :variables
+           ruby-enable-enh-ruby-mode f
            ruby-version-manager 'rvm
            ruby-test-runner 'ruby-test
            )
@@ -112,7 +116,7 @@ values."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(solarized-dark)
+   dotspacemacs-themes '(spacemacs-dark)
    ;;dotspacemacs-themes '(spacemacs-dark
    ;;                      spacemacs-light)
    ;; If non nil the cursor color matches the state color.
@@ -220,7 +224,7 @@ values."
    ;; If non nil line numbers are turned on in all `prog-mode' and `text-mode'
    ;; derivatives. If set to `relative', also turns on relative line numbers.
    ;; (default nil)
-   dotspacemacs-line-numbers nil
+   dotspacemacs-line-numbers t
    ;; If non-nil smartparens-strict-mode will be enabled in programming modes.
    ;; (default nil)
    dotspacemacs-smartparens-strict-mode nil
@@ -280,6 +284,8 @@ values."
   ;;(custom-set-variables
   ;; '(initial-frame-alist (quote ((fullscreen . maximized)))))
 
+  (setq elm-format-on-save t)
+
   ;; tabs and spaces
   (setq coffee-tab-width 2)
   (setq javascript-indent-level 2)
@@ -289,11 +295,12 @@ values."
   (setq web-mode-css-indent-offset 2)
   (setq web-mode-code-indent-offset 2)
   (setq css-indent-offset 2)
+  ;;(add-hook 'elm-mode-hook #'turn-off-elm-indent)
 
   (add-to-list 'auto-mode-alist '("\\.ctl\\'" . ruby-mode))
 
   ;; don't yell at me about tags
-  (setq large-file-warning-threshold nil)
+  (setq large-file-warning-threshold 100000000)
 
   ;; line numbers with a space before the line text
   ;;(global-linum-mode)
@@ -314,6 +321,14 @@ values."
   (setq projectile-globally-ignored-files
         '("TAGS")
         )
+
+  ;; ignore tags in helm ag searches
+  ;;(setq helm-ag-use-grep-ignore-list
+  ;;      '("TAGS" "log")
+  ;;      )
+
+  ;;(setq helm-ag-use-agignore t)
+  ;;(setq helm-ag-command-option " -U" )
 
   (global-set-key (kbd "C-l") 'evil-window-right)
   (global-set-key (kbd "C-h") 'evil-window-left)
@@ -373,7 +388,10 @@ is closed."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(mac-option-modifier (quote (:ordinary meta :function meta :mouse meta)))
+ '(ns-alternate-modifier (quote (:ordinary meta :function meta :mouse meta)))
+ '(package-selected-packages
+   (quote
+    (yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode helm-pydoc cython-mode company-anaconda anaconda-mode pythonic enh-ruby-mode csv-mode yaml-mode powerline pcre2el spinner ob-elixir org minitest markdown-mode json-snatcher json-reformat hydra parent-mode hide-comnt request gitignore-mode fringe-helper git-gutter+ git-gutter gh marshal logito pcache seq pos-tip flx iedit evil goto-chg highlight f diminish web-completion-data s dash-functional tern rust-mode bind-map bind-key packed company pkg-info epl avy auto-complete popup package-build multiple-cursors anzu undo-tree elixir-mode ht async inf-ruby dash smartparens helm helm-core yasnippet magit-popup git-commit with-editor uuidgen toc-org rake pug-mode osx-dictionary org-plus-contrib org-bullets mwim livid-mode skewer-mode simple-httpd link-hint github-search flyspell-correct-helm flyspell-correct flycheck-mix eyebrowse evil-visual-mark-mode evil-unimpaired evil-ediff eshell-z dumb-jump column-enforce-mode color-identifiers-mode cargo sass-mode persp-mode leuven-theme helm-projectile flycheck-rust erlang elm-mode diff-hl flycheck projectile js2-mode magit which-key xterm-color ws-butler window-numbering web-mode web-beautify volatile-highlights vi-tilde-fringe use-package toml-mode tern-auto-complete tagedit swift-mode spacemacs-theme spaceline smooth-scrolling smeargle slim-mode shell-pop scss-mode rvm ruby-tools ruby-test-mode ruby-end rubocop rspec-mode robe reveal-in-osx-finder restart-emacs rbenv rainbow-mode rainbow-identifiers rainbow-delimiters racer quelpa popwin pbcopy paradox page-break-lines osx-trash orgit open-junk-file neotree multi-term move-text mmm-mode markdown-toc magit-gitflow magit-gh-pulls macrostep lorem-ipsum linum-relative less-css-mode launchctl key-chord json-mode js2-refactor js-doc jade-mode info+ indent-guide ido-vertical-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation help-fns+ helm-themes helm-swoop helm-mode-manager helm-make helm-gitignore helm-flyspell helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag haml-mode google-translate golden-ratio github-clone github-browse-file gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gist gh-md flycheck-pos-tip flycheck-elm flx-ido fill-column-indicator fancy-battery expand-region exec-path-from-shell evil-visualstar evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-args evil-anzu eval-sexp-fu eshell-prompt-extras esh-help emmet-mode elisp-slime-nav define-word company-web company-tern company-statistics company-racer company-quickhelp coffee-mode clean-aindent-mode chruby bundler buffer-move bracketed-paste auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile alchemist aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line ac-ispell)))
  '(paradox-github-token t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
