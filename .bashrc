@@ -10,12 +10,14 @@ function prompt_callback {
 }
 
 GIT_PROMPT_ONLY_IN_REPO=1
-source ~/.bash-git-prompt/gitprompt.sh
-
-# added by travis gem
-[ -f /Users/seejee/.travis/travis.sh ] && source /Users/seejee/.travis/travis.sh
-
-export NVM_DIR="/Users/seejee/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+#source ~/.bash-git-prompt/gitprompt.sh
 
 eval $(thefuck --alias)
+
+if [ -f /usr/local/share/gitprompt.sh ]; then
+  GIT_PROMPT_THEME=Default
+  . /usr/local/share/gitprompt.sh
+fi
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm

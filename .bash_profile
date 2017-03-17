@@ -21,6 +21,7 @@ alias tmux="TERM=screen-256color-bce tmux"
 alias rspec='rspec --color'
 alias roobee="ssh roobee -t /usr/local/bin/tmux a"
 alias gti="git"
+alias gut="git"
 alias emacs="emacsclient -nw"
 
 if [ -f `brew --prefix`/etc/bash_completion ]; then
