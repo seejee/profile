@@ -329,6 +329,7 @@ values."
 
   ;;(setq helm-ag-use-agignore t)
   ;;(setq helm-ag-command-option " -U" )
+  (setq js2-strict-missing-semi-warning nil)
 
   (global-set-key (kbd "C-l") 'evil-window-right)
   (global-set-key (kbd "C-h") 'evil-window-left)
