@@ -5,57 +5,57 @@ let maplocalleader = "\\"
 set nocompatible
 filetype off
 
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
+set rtp+=~/.vim/bundle/Vundle.vim/
+call vundle#begin()
 
-Bundle 'gmarik/vundle'
-Bundle 'tpope/vim-fugitive'
-Bundle 'godlygeek/tabular'
-Bundle 'wojtekmach/vim-rename'
-Bundle 'airblade/vim-gitgutter'
-Bundle 'L9'
-Bundle 'kien/ctrlp.vim'
-Bundle 'altercation/vim-colors-solarized'
-Bundle 'Valloric/YouCompleteMe'
-Bundle 'benmills/vimux'
-Bundle 'kien/rainbow_parentheses.vim'
-Bundle 'christoomey/vim-tmux-navigator'
+Plugin 'gmarik/vundle'
+Plugin 'tpope/vim-fugitive'
+Plugin 'godlygeek/tabular'
+Plugin 'wojtekmach/vim-rename'
+Plugin 'airblade/vim-gitgutter'
+Plugin 'L9'
+Plugin 'kien/ctrlp.vim'
+Plugin 'altercation/vim-colors-solarized'
+Plugin 'Valloric/YouCompleteMe'
+Plugin 'benmills/vimux'
+Plugin 'kien/rainbow_parentheses.vim'
+Plugin 'christoomey/vim-tmux-navigator'
 
-Bundle 'editorconfig/editorconfig-vim'
-Bundle 'tpope/vim-unimpaired'
-Bundle 'dkprice/vim-easygrep'
-Bundle 'maxbrunsfeld/vim-yankstack'
-Bundle 'plasticboy/vim-markdown'
+Plugin 'editorconfig/editorconfig-vim'
+Plugin 'tpope/vim-unimpaired'
+Plugin 'dkprice/vim-easygrep'
+Plugin 'maxbrunsfeld/vim-yankstack'
+Plugin 'plasticboy/vim-markdown'
 
-Bundle 'tpope/vim-rails'
-Bundle 'vim-ruby/vim-ruby'
-Bundle 'slim-template/vim-slim'
-Bundle 'tpope/vim-haml'
+Plugin 'tpope/vim-rails'
+Plugin 'vim-ruby/vim-ruby'
+Plugin 'slim-template/vim-slim'
+Plugin 'tpope/vim-haml'
 
-Bundle 'guns/vim-clojure-highlight'
-Bundle 'tpope/vim-leiningen'
-Bundle 'tpope/vim-fireplace'
-Bundle 'paredit.vim'
+Plugin 'guns/vim-clojure-highlight'
+Plugin 'tpope/vim-leiningen'
+Plugin 'tpope/vim-fireplace'
+Plugin 'paredit.vim'
 
-Bundle 'SQLUtilities'
-Bundle 'Align'
-Bundle 'vim-scripts/AnsiEsc.vim'
+Plugin 'SQLUtilities'
+Plugin 'Align'
+Plugin 'vim-scripts/AnsiEsc.vim'
 
-Bundle 'digitaltoad/vim-jade'
-Bundle 'pangloss/vim-javascript'
-Bundle 'kchmck/vim-coffee-script'
-Bundle 'mustache/vim-mustache-handlebars'
+Plugin 'digitaltoad/vim-jade'
+Plugin 'pangloss/vim-javascript'
+Plugin 'kchmck/vim-coffee-script'
+Plugin 'mustache/vim-mustache-handlebars'
 
-Bundle 'elixir-lang/vim-elixir'
+Plugin 'elixir-lang/vim-elixir'
 
-Bundle 'ElmCast/elm-vim'
+Plugin 'ElmCast/elm-vim'
 
-Bundle 'jnwhiteh/vim-golang'
+Plugin 'jnwhiteh/vim-golang'
 
-Bundle 'wting/rust.vim'
-Bundle 'cespare/vim-toml'
+Plugin 'wting/rust.vim'
+Plugin 'cespare/vim-toml'
 
-Bundle 'mxw/vim-jsx'
+Plugin 'mxw/vim-jsx'
 
 filetype plugin indent on
 
@@ -101,8 +101,6 @@ set clipboard=unnamed
 
 set backupdir=~/.vim-tmpAligntmp,~/tmp,/var/tmp,/tmp
 set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
-
-set macmeta
 
 map Y y$
 
