@@ -1,0 +1,11 @@
+# ~/.tmuxinator/frontend-ell.yml
+
+name: frontend-ell
+root: ~/code/frontend-ell
+
+# Runs in each window and pane before window/pane specific commands. Useful for setting up interpreter versions.
+pre_window: export HISTFILE=~/.bash_history-frontend-ell; git pull; nvm use .
+
+windows:
+  - shell:
+  - server: yarn start

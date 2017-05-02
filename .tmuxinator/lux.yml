@@ -1,0 +1,11 @@
+# ~/.tmuxinator/lux.yml
+
+name: lux
+root: ~/code/lux
+
+# Runs in each window and pane before window/pane specific commands. Useful for setting up interpreter versions.
+pre_window: export HISTFILE=~/.bash_history-lux
+
+windows:
+  - shell:
+  - server: git pull; rake run:refresh; rake run:services[ell]; docker logs rsyslog -f
