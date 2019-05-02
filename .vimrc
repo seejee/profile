@@ -1,61 +1,39 @@
-runtime macros/matchit.vim
-
 let mapleader = ","
-let maplocalleader = "\\"
+let maplocalleader = ","
 set nocompatible
 filetype off
 
-set rtp+=~/.vim/bundle/Vundle.vim/
-call vundle#begin()
+call plug#begin()
 
-Plugin 'gmarik/vundle'
-Plugin 'tpope/vim-fugitive'
-Plugin 'godlygeek/tabular'
-Plugin 'wojtekmach/vim-rename'
-Plugin 'airblade/vim-gitgutter'
-Plugin 'L9'
-Plugin 'kien/ctrlp.vim'
-Plugin 'altercation/vim-colors-solarized'
-Plugin 'Valloric/YouCompleteMe'
-Plugin 'benmills/vimux'
-Plugin 'kien/rainbow_parentheses.vim'
-Plugin 'christoomey/vim-tmux-navigator'
+Plug 'gmarik/vundle'
+Plug 'mileszs/ack.vim'
+Plug '/usr/local/opt/fzf'
+Plug 'junegunn/fzf.vim'
+Plug 'itchyny/lightline.vim'
 
-Plugin 'editorconfig/editorconfig-vim'
-Plugin 'tpope/vim-unimpaired'
-Plugin 'dkprice/vim-easygrep'
-Plugin 'maxbrunsfeld/vim-yankstack'
-Plugin 'plasticboy/vim-markdown'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-fugitive'
+Plug 'thalesmello/tabfold'
+Plug 'jreybert/vimagit'
+Plug 'godlygeek/tabular'
+Plug 'wojtekmach/vim-rename'
+Plug 'airblade/vim-gitgutter'
+Plug 'altercation/vim-colors-solarized'
+Plug 'benmills/vimux'
+Plug 'kien/rainbow_parentheses.vim'
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'editorconfig/editorconfig-vim'
+Plug 'tpope/vim-unimpaired'
+Plug 'dkprice/vim-easygrep'
+Plug 'maxbrunsfeld/vim-yankstack'
+Plug 'plasticboy/vim-markdown'
 
-Plugin 'tpope/vim-rails'
-Plugin 'vim-ruby/vim-ruby'
-Plugin 'slim-template/vim-slim'
-Plugin 'tpope/vim-haml'
+Plug 'sheerun/vim-polyglot'
+Plug 'w0rp/ale'
 
-Plugin 'guns/vim-clojure-highlight'
-Plugin 'tpope/vim-leiningen'
-Plugin 'tpope/vim-fireplace'
-Plugin 'paredit.vim'
+Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
 
-Plugin 'SQLUtilities'
-Plugin 'Align'
-Plugin 'vim-scripts/AnsiEsc.vim'
-
-Plugin 'digitaltoad/vim-jade'
-Plugin 'pangloss/vim-javascript'
-Plugin 'kchmck/vim-coffee-script'
-Plugin 'mustache/vim-mustache-handlebars'
-
-Plugin 'elixir-lang/vim-elixir'
-
-Plugin 'ElmCast/elm-vim'
-
-Plugin 'jnwhiteh/vim-golang'
-
-Plugin 'wting/rust.vim'
-Plugin 'cespare/vim-toml'
-
-Plugin 'mxw/vim-jsx'
+call plug#end()
 
 filetype plugin indent on
 
@@ -102,6 +80,22 @@ set clipboard=unnamed
 set backupdir=~/.vim-tmpAligntmp,~/tmp,/var/tmp,/tmp
 set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
 
+nmap \x :cclose<CR>
+
+" Turn off linewise keys. Normally, the `j' and `k' keys move the cursor down one entire line. with
+" line wrapping on, this can cause the cursor to actually skip a few lines on the screen because
+" it's moving from line N to line N+1 in the file. I want this to act more visually -- I want `down'
+" to mean the next line on the screen
+nmap j gj
+nmap k gk
+
+" You don't know what you're missing if you don't use this.
+nmap <C-e> :e#<CR>
+
+" Move between open buffers.
+nmap <C-n> :bnext<CR>
+nmap <C-p> :bprev<CR>
+
 map Y y$
 
 " reload .vimrc when it is save
@@ -122,7 +116,27 @@ runtime macros/matchit.vim
 
 " completion
 
+if executable('ag')
+  let g:ackprg = 'ag --vimgrep'
+endif
+
+" fzf
+let $FZF_DEFAULT_COMMAND = 'ag --ignore=*.svg,*.png -l -g ""'
+nmap ; :Buffers<CR>
+nmap <Leader>t :Files<CR>
+
+nmap <leader>f mo:Ack! "\b<cword>\b" <CR>
+
+set tags=./tags,tags,coffee.tags
+
 let g:EclimCompletionMethod = 'omnifunc'
+
+" ALE
+let g:ale_fixers = {
+\   'javascript': ['prettier', 'eslint'],
+\}
+
+let g:ale_fix_on_save = 1
 
 " better split nav
 noremap <C-h> <C-w>h
@@ -138,32 +152,16 @@ map <leader>w <C-w>p
 nmap <leader>p <Plug>yankstack_substitute_older_paste
 nmap <leader>P <Plug>yankstack_substitute_newer_paste
 
-" Clojure bindings
-nmap <leader>; :%Eval<CR>
-nmap <leader>: :Eval<CR>
-
-" Elm bindings
-au FileType elm nmap <leader>b <Plug>(elm-make)
-au FileType elm nmap <leader>m <Plug>(elm-make-main)
-au FileType elm nmap <leader>t <Plug>(elm-test)
-au FileType elm nmap <leader>r <Plug>(elm-repl)
-au FileType elm nmap <leader>e <Plug>(elm-error-detail)
-au FileType elm nmap <leader>d <Plug>(elm-show-docs)
-au FileType elm nmap <leader>w <Plug>(elm-browse-docs)
-
-" regenerate ctags
-"map <Leader>c :!rm tags; ctags --extra=+f -R *<CR><CR>
-set tags=./tags,tags,coffee.tags
-map <Leader>c :!rm tags; ctags --extra=+f --exclude=coverage --exclude=.git --exclude=vendor --exclude=log --exclude=node_modules --exclude=public -R *;rm coffee.tags; coffeetags -R -f coffee.tags<CR><CR>
-autocmd FileType ruby map <Leader>s :w<CR>:!ruby -c %<CR>
 " use jk as ESC in insert mode inoremap jk <Esc>
 nnoremap <C-e> 3<C-e>
 nnoremap <C-y> 3<C-y>
 map <leader>j <Esc>:%!json_xs -f json -t json-pretty<CR>
 
 " color scheme
-colorscheme solarized
+" let g:solarized_termcolors=256
+let g:solarized_termtrans = 1 " This gets rid of the grey background
 set background=dark
+colorscheme solarized
 
 " use return to clear hl search
 :nnoremap <CR> :nohlsearch<CR>/<BS>
@@ -189,12 +187,7 @@ set winheight=999
 vmap > >gv
 vmap < <gv
 
-" Ctrl-p excludes
-set wildignore+=*.png,*.jpg,*.pdf,*.swf,spec/etl/apangea/**,log/**,tmp/**,temp/**
-let g:ctrlp_custom_ignore = '\.git$\|\.o$\|\.app$\|\.beam$\|\.dSYM\|\.ipa$\|\.csv\|tags\|public\/images$\|public\/uploads$\|log\|tmp$\|source_maps\|app\/assets\/images\|test\/reports\|node_modules\|bower_components\|^dist\|deps\|priv\|spec\/etl\/apangea'
-
-" EasyGrep exclude
-let g:EasyGrepFilesToExclude = 'tags,log,logs,tmp,temp,vendor/,spec/etl/apangea'
+let g:vim_markdown_folding_disabled = 1
 
 " Show trailing spaces as a dot
 set listchars=tab:>-,trail:·,eol:$
@@ -203,99 +196,7 @@ nmap <silent> <leader>s :set nolist!<CR>
 " Catch trailing whitespace
 set list listchars=trail:.,tab:>>
 
-" Window swapping
-function! MarkWindowSwap()
-    let g:markedWinNum = winnr()
-endfunction
-
-function! GitGrep(pattern)
-    silent !clear
-    execute "!git grep " . a:pattern
-endfunction
-
-function! DoWindowSwap()
-    "Mark destination
-    let curNum = winnr()
-    let curBuf = bufnr( "%" )
-    exe g:markedWinNum . "wincmd w"
-    "Switch to source and shuffle dest->source
-    let markedBuf = bufnr( "%" )
-    "Hide and open so that we aren't prompted and keep history
-    exe 'hide buf' curBuf
-    "Switch to dest and shuffle source->dest
-    exe curNum . "wincmd w"
-    "Hide and open so that we aren't prompted and keep history
-    exe 'hide buf' markedBuf
-endfunction
-
-nmap <silent> <leader>mw :call MarkWindowSwap()<CR>
-nmap <silent> <leader>pw :call DoWindowSwap()<CR>
 nmap <silent> <leader><space> :call TrimSpaces()<CR>
-
-" Testy McTestertons
-function! IsMinitest(filename)
-  let split_filename = split(a:filename, ":")[0]
-  return match(split_filename, '_test.rb$') != -1
-endfunction
-
-function! IsRspec(filename)
-  let split_filename = split(a:filename, ":")[0]
-  return match(split_filename, '_spec.rb$') != -1
-endfunction
-
-function! IsJasmine(filename)
-  let split_filename = split(a:filename, ":")[0]
-  return match(split_filename, '_spec.js$') != -1
-endfunction
-
-function! IsExUnit(filename)
-  let split_filename = split(a:filename, ":")[0]
-  return match(split_filename, '_test.exs$') != -1
-endfunction
-
-function! RunTests(filename)
-    " Write the file and run tests for the given filename
-    :w
-
-    if IsMinitest(a:filename)
-      let command_to_run = "m " . a:filename
-    elseif IsRspec(a:filename)
-      let command_to_run = "rspec " . a:filename
-    elseif IsJasmine(a:filename)
-      let command_to_run = "jasmine-node " . a:filename
-    elseif IsExUnit(a:filename)
-      let command_to_run = "mix test " . a:filename
-    end
-
-    call VimuxRunCommand(command_to_run)
-endfunction
-
-function! SetTestFile()
-    " Set the spec file that tests will be run for.
-    let t:grb_test_file=@%
-endfunction
-
-function! RunTestFile(...)
-    if a:0
-        let command_suffix = a:1
-    else
-        let command_suffix = ""
-    endif
-
-    " Run the tests for the previously-marked file.
-    let in_spec_file = IsMinitest(expand("%")) || IsRspec(expand("%")) || IsJasmine(expand("%")) || IsExUnit(expand("%"))
-    if in_spec_file
-        call SetTestFile()
-    elseif !exists("t:grb_test_file")
-        return
-    end
-    call RunTests(t:grb_test_file . command_suffix)
-endfunction
-
-function! RunNearestTest()
-    let spec_line_number = line('.')
-    call RunTestFile(":" . spec_line_number)
-endfunction
 
 function! TrimSpaces()
     %s/\s*$//
@@ -303,6 +204,6 @@ function! TrimSpaces()
     ''
 endfunction
 
-map <leader>t :call RunTestFile()<cr><cr>
-map <leader>T :call RunNearestTest()<cr><cr>
-map <leader>a :call RunTests('spec')<cr><cr>
+" In the quickfix window, <CR> is used to jump to the error under the
+" cursor, so undefine the mapping there.
+autocmd BufReadPost quickfix nnoremap <buffer> <CR> <CR>

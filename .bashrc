@@ -10,7 +10,7 @@ function prompt_callback {
 }
 
 GIT_PROMPT_ONLY_IN_REPO=1
-#source ~/.bash-git-prompt/gitprompt.sh
+source ~/.git-completion.bash
 
 eval $(thefuck --alias)
 
@@ -19,5 +19,8 @@ if [ -f /usr/local/share/gitprompt.sh ]; then
   . /usr/local/share/gitprompt.sh
 fi
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+export PATH="$PATH:$HOME/.rvm/bin"
+source <(kubectl completion bash)
