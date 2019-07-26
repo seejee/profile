@@ -18,9 +18,3 @@ if [ -f /usr/local/share/gitprompt.sh ]; then
   GIT_PROMPT_THEME=Default
   . /usr/local/share/gitprompt.sh
 fi
-
-export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
-
-# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
-export PATH="$PATH:$HOME/.rvm/bin"
-source <(kubectl completion bash)
