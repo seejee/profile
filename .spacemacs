@@ -27,21 +27,14 @@ values."
    ;; If non-nil layers with lazy install support are lazy installed.
    ;; List of additional paths where to look for configuration layers.
    ;; Paths must have a trailing slash (i.e. `~/.mycontribs/')
-   dotspacemacs-configuration-layer-path
-   '(
-     "~/.emacs.d/private/"
-     )
-   ;; List of configuration layers to load. If it is the symbol `all' instead
-   ;; of a list then all discovered layers will be installed.
+   dotspacemacs-configuration-layer-path '()
+   ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
-     nginx
-     php
+     lua
+     purescript
+     javascript
      sql
-     vimscript
-     python
-     csv
-     yaml
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
@@ -54,41 +47,29 @@ values."
      emacs-lisp
      git
      github
-     swift
      markdown
-     erlang
-     elixir
-     javascript
+     ;; org
+     ;; (shell :variables
+     ;;        shell-default-height 30
+     ;;        shell-default-position 'bottom)
      spell-checking
      syntax-checking
      version-control
-     shell
-     elm
-     (ruby :variables
-           ruby-enable-enh-ruby-mode f
-           ruby-version-manager 'rvm
-           ruby-test-runner 'ruby-test
-           )
-     rust
+     (shell :variables
+            shell-default-height 30
+            shell-default-position 'bottom)
      osx
      react
-     spacemacs-prettier
      org
-     java
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
-   ;; packages then consider to create a layer, you can also put the
-   ;; configuration in `dotspacemacs/config'.
-   dotspacemacs-additional-packages '(
-                                      key-chord
-                                      scss-mode
-                                      tern-auto-complete
-                                      haml-mode
-                                      diff-hl
-                                      editorconfig
-                                      py-autopep8
-                                      )
+   ;; packages, then consider creating a layer. You can also put the
+   ;; configuration in `dotspacemacs/user-config'.
+   dotspacemacs-additional-packages '
+   (
+    key-chord
+    )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.
@@ -124,11 +105,10 @@ values."
    ;; when the current branch is not `develop'. Note that checking for
    ;; new versions works via git commands, thus it calls GitHub services
    ;; whenever you start Emacs. (default nil)
-   dotspacemacs-check-for-update t
-   ;; One of `vim', `emacs' or `hybrid'. Evil is always enabled but if the
-   ;; variable is `emacs' then the `holy-mode' is enabled at startup. `hybrid'
-   ;; uses emacs key bindings for vim's insert mode, but otherwise leaves evil
-   ;; unchanged. (default 'vim)
+   dotspacemacs-check-for-update nil
+   ;; If non-nil, a form that evaluates to a package directory. For example, to
+   ;; use different package directories for different Emacs versions, set this
+   ;; to `emacs-version'.
    dotspacemacs-elpa-subdirectory nil
    ;; One of `vim', `emacs' or `hybrid'.
    ;; `hybrid' is like `vim' except that `insert state' is replaced by the
@@ -161,10 +141,9 @@ values."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(spacemacs-dark)
-   ;;dotspacemacs-themes '(spacemacs-dark
-   ;;                      spacemacs-light)
-   ;; If non nil the cursor color matches the state color.
+   dotspacemacs-themes '(spacemacs-dark
+                         spacemacs-light)
+   ;; If non nil the cursor color matches the state color in GUI Emacs.
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
@@ -172,7 +151,7 @@ values."
                                :size 13
                                :weight normal
                                :width normal
-                               :powerline-scale 1.2)
+                               :powerline-scale 1.1)
    ;; The leader key
    dotspacemacs-leader-key "SPC"
    ;; The key used for Emacs commands (M-x) (after pressing on the leader key).
@@ -259,12 +238,12 @@ values."
    dotspacemacs-fullscreen-at-startup t
    ;; If non nil `spacemacs/toggle-fullscreen' will not use native fullscreen.
    ;; Use to disable fullscreen animations in OSX. (default nil)
-   dotspacemacs-fullscreen-use-non-native t
+   dotspacemacs-fullscreen-use-non-native nil
    ns-use-native-fullscreen nil
    ;; If non nil the frame is maximized when Emacs starts up.
    ;; Takes effect only if `dotspacemacs-fullscreen-at-startup' is nil.
    ;; (default nil) (Emacs 24.4+ only)
-   dotspacemacs-maximized-at-startup t
+   dotspacemacs-maximized-at-startup nil
    ;; A value from the range (0..100), in increasing opacity, which describes
    ;; the transparency level of a frame when it's active or selected.
    ;; Transparency can be toggled through `toggle-transparency'. (default 90)
@@ -327,49 +306,23 @@ values."
    ;; `trailing' to delete only the whitespace at end of lines, `changed'to
    ;; delete only whitespace for changed lines or `nil' to disable cleanup.
    ;; (default nil)
-   dotspacemacs-whitespace-cleanup 'trailing
+   dotspacemacs-whitespace-cleanup nil
    ))
 
-(defun dotspacemacs/user-init ()
-  (setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin"))
-  (setq exec-path (append exec-path '("/usr/local/bin")))
-  )
+(defun dotspacemacs/user-init ())
 
 (defun seejee/switch-to-previous-buffer ()
   (interactive)
   (switch-to-buffer (other-buffer (current-buffer) 1)))
 
-(defun seejee/run-tests ()
-  (interactive)
-  (let ((extension (file-name-extension buffer-file-name)))
-    (message extension)
-    ))
-
 (defun dotspacemacs/user-config ()
-  (editorconfig-mode 1)
+  ;; (editorconfig-mode 1)
   ;; Configure git gutter (diff-hl) the way I like it
   (setq diff-hl-side 'left)
   (global-diff-hl-mode)
   (diff-hl-flydiff-mode)
   (set-fringe-style '(8 . 0))
 
-  (set-keyboard-coding-system nil)
-  (setq-default git-enable-github-support t)
-  (global-evil-surround-mode 1)
-  ;;(global-company-mode)
-  ;;(add-hook 'alchemist-mode-hook 'company-mode)
-
-  ;; don't prompt for tag tables
-  (setq tags-add-tables nil)
-
-  ;;(custom-set-variables
-  ;; '(initial-frame-alist (quote ((fullscreen . maximized)))))
-
-  (setq elm-format-on-save t)
-  (setq rust-format-on-save t)
-
-  ;; tabs and spaces
-  (setq coffee-tab-width 2)
   (setq javascript-indent-level 2)
   (setq js-indent-level 2)
   (setq js2-basic-offset 2)
@@ -377,18 +330,14 @@ values."
   (setq web-mode-css-indent-offset 2)
   (setq web-mode-code-indent-offset 2)
   (setq css-indent-offset 2)
-  ;;(add-hook 'elm-mode-hook #'turn-off-elm-indent)
 
-  (add-to-list 'auto-mode-alist '("\\.ctl\\'" . ruby-mode))
 
-  ;; don't yell at me about tags
-  (setq large-file-warning-threshold 100000000)
+  (set-keyboard-coding-system nil)
+  (setq-default git-enable-github-support t)
+  (global-evil-surround-mode 1)
 
-  ;; line numbers with a space before the line text
-  ;;(global-linum-mode)
-  ;;(setq linum-format "%d ")
+  ;; keybindings
 
-  ;; Exit insert mode by pressing j and then j quickly
   (setq key-chord-two-keys-delay 0.5)
   (key-chord-define evil-insert-state-map "jj" 'evil-normal-state)
   (key-chord-mode 1)
@@ -396,39 +345,15 @@ values."
   (key-chord-define evil-normal-state-map "ss" 'save-buffer)
   (key-chord-define evil-normal-state-map ",," 'seejee/switch-to-previous-buffer)
 
-  (setq projectile-globally-ignored-directories
-        '("solr" "log" "app/assets/bower" "node_modules")
-        )
-
-  (setq projectile-globally-ignored-files
-        '("TAGS")
-        )
-
-  ;; ignore tags in helm ag searches
-  ;;(setq helm-ag-use-grep-ignore-list
-  ;;      '("TAGS" "log")
-  ;;      )
-
-  ;;(setq helm-ag-use-agignore t)
-  ;;(setq helm-ag-command-option " -U" )
-  (setq js2-strict-missing-semi-warning nil)
-
-  ;; (key-chord-define evil-normal-state-map "gh" 'evil-window-left)
-  ;; (key-chord-define evil-normal-state-map "gl" 'evil-window-right)
-  ;; (key-chord-define evil-normal-state-map "gk" 'evil-window-up)
-  ;; (key-chord-define evil-normal-state-map "gj" 'evil-window-down)
-  ;; (keyboard-translate ?\C-h ?\C-w h)
   (define-key global-map (kbd "C-k") 'evil-window-up)
   (define-key global-map (kbd "C-j") 'evil-window-down)
+  (define-key global-map (kbd "C-h") 'evil-window-left)
+  (define-key global-map (kbd "C-l") 'evil-window-right)
 
   (evil-search-highlight-persist nil)
   (evil-leader/set-key "ga" 'vc-annotate)
 
-  (setq markdown-open-command "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome")
-  (evil-leader/set-key "mo" 'markdown-open)
-
-  (key-chord-define evil-normal-state-map ",t" 'ruby-test-run)
-  (key-chord-define evil-normal-state-map ",T" 'ruby-test-run-at-point)
+  (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
   ;; Don't :q quit emacs if you're on the last buffer
   (evil-define-command evil-quit (&optional force)
@@ -451,51 +376,7 @@ is closed."
 
   (evil-ex-define-cmd "q[uit]" 'evil-quit)
 
-  (defun local-to-let ()
-    (interactive) (kmacro-exec-ring-item (quote ([108 101 116 40 4 58 19 32 return 2 41 4 4 32 123 4 5 32 63 backspace 125 16 14] 0 "%d")) nil))
-
-  (defun embiggen-steve ()
-    (interactive)
-    (set-face-attribute 'default nil :height 150))
-
-  (defun not-steve ()
-    (interactive)
-    (set-face-attribute 'default nil :height 135))
-
-  (global-set-key (kbd "s-e") 'embiggen-steve)
-  (global-set-key (kbd "s-E") 'not-steve)
-
-  (setq py-autopep8-options '("--max-line-length=120"))
-  (add-hook 'python-mode-hook 'py-autopep8-enable-on-save)
-
-  (add-hook 'js2-mode-hook 'prettier-js-mode)
-  (add-hook 'after-init-hook #'global-emojify-mode)
-
-  (require 'ansi-color)
-  (defun display-ansi-colors ()
-    (interactive)
-    (ansi-color-apply-on-region (point-min) (point-max)))
-
-  ;; prettier settings
-  (setq prettier-js-args
-        '(
-          "--trailing-comma" "es5"
-          "--single-quote"
-          "--tab-width" "4"
-          "--print-width" "100"
-          ))
-
-  (defun contextual-menubar (&optional frame)
-    "Display the menubar in FRAME (default: selected frame) if on a
-    graphical display, but hide it if in terminal."
-    (interactive)
-    (set-frame-parameter frame 'menu-bar-lines
-                         (if (display-graphic-p frame)
-                             1 0)))
-
-  (add-hook 'after-make-frame-functions 'contextual-menubar)
-)
-
+  )
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
@@ -504,15 +385,12 @@ is closed."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(ns-alternate-modifier (quote (:ordinary meta :function meta :mouse meta)))
  '(package-selected-packages
    (quote
-    (nginx-mode phpunit phpcbf php-auto-yasnippets drupal-mode php-mode company-emacs-eclim eclim reformatter treepy graphql org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download htmlize gnuplot py-autopep8 wgrep smex ivy-hydra flyspell-correct-ivy counsel-projectile counsel swiper ivy ghub let-alist sql-indent emojify vimrc-mode dactyl-mode editorconfig winum unfill fuzzy flycheck-credo yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode helm-pydoc cython-mode company-anaconda anaconda-mode pythonic enh-ruby-mode csv-mode yaml-mode powerline pcre2el spinner ob-elixir org minitest markdown-mode json-snatcher json-reformat hydra parent-mode hide-comnt request gitignore-mode fringe-helper git-gutter+ git-gutter gh marshal logito pcache seq pos-tip flx iedit evil goto-chg highlight f diminish web-completion-data s dash-functional tern rust-mode bind-map bind-key packed company pkg-info epl avy auto-complete popup package-build multiple-cursors anzu undo-tree elixir-mode ht async inf-ruby dash smartparens helm helm-core yasnippet magit-popup git-commit with-editor uuidgen toc-org rake pug-mode osx-dictionary org-plus-contrib org-bullets mwim livid-mode skewer-mode simple-httpd link-hint github-search flyspell-correct-helm flyspell-correct flycheck-mix eyebrowse evil-visual-mark-mode evil-unimpaired evil-ediff eshell-z dumb-jump column-enforce-mode color-identifiers-mode cargo sass-mode persp-mode leuven-theme helm-projectile flycheck-rust erlang elm-mode diff-hl flycheck projectile js2-mode magit which-key xterm-color ws-butler window-numbering web-mode web-beautify volatile-highlights vi-tilde-fringe use-package toml-mode tern-auto-complete tagedit swift-mode spacemacs-theme spaceline smooth-scrolling smeargle slim-mode shell-pop scss-mode rvm ruby-tools ruby-test-mode ruby-end rubocop rspec-mode robe reveal-in-osx-finder restart-emacs rbenv rainbow-mode rainbow-identifiers rainbow-delimiters racer quelpa popwin pbcopy paradox page-break-lines osx-trash orgit open-junk-file neotree multi-term move-text mmm-mode markdown-toc magit-gitflow magit-gh-pulls macrostep lorem-ipsum linum-relative less-css-mode launchctl key-chord json-mode js2-refactor js-doc jade-mode info+ indent-guide ido-vertical-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation help-fns+ helm-themes helm-swoop helm-mode-manager helm-make helm-gitignore helm-flyspell helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag haml-mode google-translate golden-ratio github-clone github-browse-file gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gist gh-md flycheck-pos-tip flycheck-elm flx-ido fill-column-indicator fancy-battery expand-region exec-path-from-shell evil-visualstar evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-args evil-anzu eval-sexp-fu eshell-prompt-extras esh-help emmet-mode elisp-slime-nav define-word company-web company-tern company-statistics company-racer company-quickhelp coffee-mode clean-aindent-mode chruby bundler buffer-move bracketed-paste auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile alchemist aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line ac-ispell)))
- '(paradox-github-token t))
+    (lua-mode psci purescript-mode psc-ide org-category-capture alert log4e gntp markdown-mode magit-popup haml-mode gitignore-mode fringe-helper git-gutter+ git-gutter gh marshal logito pcache ht flyspell-correct pos-tip flycheck magit git-commit with-editor transient web-completion-data dash-functional tern company auto-complete skewer-mode simple-httpd json-snatcher json-reformat yasnippet multiple-cursors js2-mode define-word yaml-mode xterm-color ws-butler winum which-key web-mode web-beautify volatile-highlights vimrc-mode vi-tilde-fringe uuidgen use-package unfill toml-mode toc-org tern-auto-complete tagedit sql-indent spaceline smeargle slim-mode shell-pop scss-mode sass-mode rvm ruby-tools ruby-test-mode rubocop rspec-mode robe reveal-in-osx-finder restart-emacs rbenv rake rainbow-mode rainbow-identifiers rainbow-delimiters racer py-autopep8 pug-mode popwin persp-mode pbcopy paradox osx-trash osx-dictionary orgit org-projectile org-present org-pomodoro org-mime org-download org-bullets open-junk-file ob-elixir nginx-mode neotree mwim multi-term move-text mmm-mode minitest markdown-toc magit-gitflow magit-gh-pulls macrostep lorem-ipsum livid-mode linum-relative link-hint launchctl key-chord json-mode js2-refactor js-doc indent-guide hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-gitignore helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gnuplot github-search github-clone github-browse-file gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gist gh-md fuzzy flyspell-correct-helm flycheck-rust flycheck-pos-tip flycheck-mix flycheck-credo flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help erlang emmet-mode elisp-slime-nav editorconfig dumb-jump diminish diff-hl dactyl-mode csv-mode company-web company-tern company-statistics column-enforce-mode color-identifiers-mode coffee-mode clean-aindent-mode chruby cargo bundler auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile alchemist aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line ac-ispell))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(company-tooltip-common ((t (:inherit company-tooltip :weight bold :underline nil))))
- '(company-tooltip-common-selection ((t (:inherit company-tooltip-selection :weight bold :underline nil)))))
+ )
