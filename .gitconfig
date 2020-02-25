@@ -1,6 +1,7 @@
 [user]
   name =  Chris Geihsler
-  email = chris@geihsler.net
+  email = chris.geihsler@auth0.com
+  signingkey = 13F9A7335FEA7D38
 
 [github]
   user = seejee
