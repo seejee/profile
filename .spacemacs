@@ -275,7 +275,7 @@ values."
    ;;                       text-mode
    ;;   :size-limit-kb 1000)
    ;; (default nil)
-   dotspacemacs-line-numbers t
+   dotspacemacs-line-numbers nil
    ;; Code folding method. Possible values are `evil' and `origami'.
    ;; (default 'evil)
    dotspacemacs-folding-method 'evil
@@ -316,6 +316,7 @@ values."
   (switch-to-buffer (other-buffer (current-buffer) 1)))
 
 (defun dotspacemacs/user-config ()
+  (global-display-line-numbers-mode)
   ;; (editorconfig-mode 1)
   ;; Configure git gutter (diff-hl) the way I like it
   (setq diff-hl-side 'left)
@@ -330,7 +331,6 @@ values."
   (setq web-mode-css-indent-offset 2)
   (setq web-mode-code-indent-offset 2)
   (setq css-indent-offset 2)
-
 
   (set-keyboard-coding-system nil)
   (setq-default git-enable-github-support t)
