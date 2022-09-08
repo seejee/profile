@@ -44,3 +44,4 @@ color() {
      ssh -t -X devdeployer scripts/ssh_farmhouse.sh $1
     fi
 }
+. "$HOME/.cargo/env"
