@@ -53,4 +53,4 @@
 [rerere]
 	enabled = true
 [commit]
-	gpgsign = true
+	gpgsign = false
